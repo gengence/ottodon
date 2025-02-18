@@ -1,70 +1,30 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Sidebar } from "@/components/sidebar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen bg-custom-bgblue">
-      {/* Sidebar */}
-      <nav className="w-40 bg-blue-600 text-white flex flex-col items-center py-8">
-        {/* Top section */}
-        <div className="flex flex-col items-center space-y-6">
-          <div className="text-4xl font-bold">&gt;&gt;</div>
-          <button className="p-3 hover:bg-gray-800 rounded-lg transition-colors group">
-            <div className="flex flex-col items-center">
-              <span className="text-6xl mb-3">⬇️</span>
-              <span className="text-3xl">download</span>
-            </div>
-          </button>
-          <button className="p-3 hover:bg-gray-800 rounded-lg transition-colors group">
-            <div className="flex flex-col items-center">
-              <span className="text-6xl mb-3">🔄</span>
-              <span className="text-3xl">remux</span>
-            </div>
-          </button>
-        </div>
+      <Sidebar />
 
-        {/* Bottom section */}
-        <div className="flex flex-col items-center space-y-6 mt-auto pt-8">
-          <button className="p-3 hover:bg-gray-800 rounded-lg transition-colors">
-            <div className="flex flex-col items-center">
-              <span className="text-6xl mb-3">⚙️</span>
-              <span className="text-3xl">settings</span>
-            </div>
-          </button>
-          <button className="p-3 hover:bg-gray-800 rounded-lg transition-colors">
-            <div className="flex flex-col items-center">
-              <span className="text-6xl mb-3">❤️</span>
-              <span className="text-3xl">donate</span>
-            </div>
-          </button>
-          <button className="p-3 hover:bg-gray-800 rounded-lg transition-colors">
-            <div className="flex flex-col items-center">
-              <span className="text-6xl mb-3">⭐️</span>
-              <span className="text-3xl">updates</span>
-            </div>
-          </button>
-          <button className="p-3 hover:bg-gray-800 rounded-lg transition-colors">
-            <div className="flex flex-col items-center">
-              <span className="text-6xl mb-3">ℹ️</span>
-              <span className="text-3xl">about</span>
-            </div>
-          </button>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <main className="flex-1 p-8 flex flex-col items-center justify-between">
+      <main className="flex-1 p-8 flex flex-col">
         {/* Header */}
-        <div className="w-full max-w-3xl flex justify-end mb-4">
-          <button className="text-gray-600 hover:text-gray-800">
-            + Hello, Captain Ahab.
-          </button>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-semibold text-custom-textblue">Welcome</h1>
+          <Button 
+            variant="ghost" 
+            className="text-gray-600 hover:text-gray-800"
+          >
+            + Hello, Captain Ahab
+          </Button>
         </div>
 
         {/* Main Content */}
-        <div className="w-full max-w-4xl flex flex-col items-center space-y-12">
+        <div className="flex-1 flex flex-col items-center justify-center gap-12 max-w-4xl mx-auto w-full">
           {/* Logo */}
-          <div className="relative w-80 h-80">
+          <div className="relative w-80 h-80 -mt-20">
             <Image
               src="/placeholder-logo.png"
               alt="Logo"
@@ -77,37 +37,54 @@ export default function Home() {
 
           {/* Input Field */}
           <div className="w-full relative">
-            <input
+            <Input
               type="text"
               placeholder="paste the link here"
-              className="w-full px-14 py-8 pr-32 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 text-3xl"
+              className="w-full px-6 py-8 text-xl h-auto rounded-lg"
             />
-            <button className="absolute right-3 top-1/2 -translate-y-1/2 px-10 py-5 bg-gray-100 rounded-md text-xl">
+            <Button 
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 h-auto"
+              variant="secondary"
+            >
               paste
-            </button>
+            </Button>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-6">
-            <button className="px-12 py-6 bg-gray-400 text-blue-100 rounded-md flex items-center space-x-3 text-2xl">
-              <span className="text-4xl">✨</span>
-              <span>auto</span>
-            </button>
-            <button className="px-12 py-6 bg-gray-200 border border-gray-400 rounded-md flex items-center space-x-3 text-2xl">
-              <span className="text-4xl">🎵</span>
-              <span>audio</span>
-            </button>
-            <button className="px-12 py-6 bg-white border border-gray-200 rounded-md flex items-center space-x-3 text-2xl">
-              <span className="text-4xl">🔇</span>
-              <span>mute</span>
-            </button>
+          <div className="flex gap-4">
+            <Button 
+              size="lg"
+              className="h-auto py-4 px-8 text-lg font-medium"
+            >
+              <span className="text-2xl mr-2">✨</span>
+              auto
+            </Button>
+            <Button 
+              variant="secondary"
+              size="lg"
+              className="h-auto py-4 px-8 text-lg font-medium"
+            >
+              <span className="text-2xl mr-2">🎵</span>
+              audio
+            </Button>
+            <Button 
+              variant="outline"
+              size="lg"
+              className="h-auto py-4 px-8 text-lg font-medium"
+            >
+              <span className="text-2xl mr-2">🔇</span>
+              mute
+            </Button>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="w-full max-w-4xl text-center text-base text-gray-600 mt-12">
+        <div className="text-center text-sm text-gray-500 mt-12">
           By using this website, you agree to the{" "}
-          <Link href="/terms" className="underline">
+          <Link 
+            href="/terms" 
+            className="font-medium underline underline-offset-4 hover:text-gray-800"
+          >
             terms and ethical usages
           </Link>{" "}
           of what you download.
