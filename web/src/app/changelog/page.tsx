@@ -71,7 +71,7 @@ const changelogEntries: ChangelogEntry[] = [
   }
 ];
 
-export default function ChangelogPage() {
+export default function Changelog() {
   return (
     <div className="pl-[100px] min-h-screen bg-background flex justify-center">
       <main className="w-[800px] p-8">

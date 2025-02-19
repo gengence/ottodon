@@ -1,4 +1,4 @@
-export default function LicensesPage() {
+export default function Licenses() {
   return (
     <div className="max-w-3xl">
       <h1 className="text-3xl font-semibold mb-6 text-[#586e75]">Licenses & Attribution</h1>

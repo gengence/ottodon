@@ -1,4 +1,4 @@
-export default function PrivacyPage() {
+export default function Privacy() {
   return (
     <div className="max-w-3xl">
       <h1 className="text-3xl font-semibold mb-6 text-foreground">Privacy Policy</h1>

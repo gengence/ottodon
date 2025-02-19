@@ -1,4 +1,4 @@
-export default function GeneralPage() {
+export default function General() {
   return (
     <div className="max-w-3xl">
       <h1 className="text-3xl font-semibold mb-6 text-foreground">What&apos;s Ottodon?</h1>

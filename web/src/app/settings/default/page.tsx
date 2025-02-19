@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
 
-export default function SettingsPage() {
+export default function Settings() {
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-3xl font-semibold mb-8 text-foreground">Settings</h1>

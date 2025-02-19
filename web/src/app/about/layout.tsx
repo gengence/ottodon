@@ -7,7 +7,7 @@ const aboutNavItems = [
   { href: "/about/terms", label: "Terms" },
   { href: "/about/licenses", label: "Licenses" },
   { href: "/about/privacy", label: "Privacy" },
-  { href: "/about/socials", label: "Socials" },
+  { href: "/about/social", label: "Social" },
 ];
 
 export default function AboutLayout({

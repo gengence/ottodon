@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
 
-export default function SocialsPage() {
+export default function Social() {
   return (
     <div className="max-w-3xl">
       <h1 className="text-3xl font-semibold mb-6 text-foreground">Connect With Us</h1>
