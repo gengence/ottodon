@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Sidebar } from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link as LinkIcon, Upload } from "lucide-react";
@@ -57,24 +56,11 @@ export default function Home() {
             />
           </div>
 
-          {/* Input Field */}
-          <div className="w-full relative">
-            <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#586e75]/70">
-                <LinkIcon className="h-4 w-4" />
-              </div>
-              <Input
-                type="text"
-                placeholder="paste the link here"
-                className="px-4 py-2 text-sm text-[#586e75] placeholder:text-[#586e75]/70 pl-9 pr-16"
-              />
-              <Button 
-                className="absolute right-0 top-0 bottom-0 text-[#586e75] hover:bg-[#00000010] dark:hover:bg-[#ffffff10] rounded-l-none h-full"
-                variant="ghost"
-                size="sm"
-              >
-                paste
-              </Button>
+        {/* Input Field */}
+        <div className="w-full relative">
+          <div className="relative">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#586e75]/70">
+              <LinkIcon className="h-4 w-4" />
             </div>
           </div>
 
@@ -101,7 +87,8 @@ export default function Home() {
               </Button>
             </label>
           </div>
-
+        </div>
+          
           {/* Footer */}
           <div className="text-center text-xs text-[#586e75]">
             by using this website, you agree to the{" "}
@@ -114,7 +101,7 @@ export default function Home() {
             of what you download.
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

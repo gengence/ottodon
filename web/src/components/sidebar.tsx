@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Download, RefreshCw, Settings, History, Info, type LucideIcon } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import Link from "next/link"
 import { useState } from "react"
 
 interface SidebarButtonProps {
@@ -12,10 +13,11 @@ interface SidebarButtonProps {
   isActive?: boolean;
   onClick?: () => void;
   className?: string;
+  href?: string;
 }
 
-const SidebarButton = ({ icon: Icon, label, isActive, onClick, className }: SidebarButtonProps) => (
-  <div className="px-2">
+const SidebarButton = ({ icon: Icon, label, isActive, onClick, className, href }: SidebarButtonProps) => {
+  const button = (
     <Button 
       variant="ghost" 
       className={cn(
@@ -35,25 +37,31 @@ const SidebarButton = ({ icon: Icon, label, isActive, onClick, className }: Side
       <Icon />
       <span className="text-[11px] font-light tracking-wide mt-0.5">{label}</span>
     </Button>
-  </div>
-)
+  )
+
+  if (href) {
+    return <Link href={href}>{button}</Link>
+  }
+
+  return button
+}
 
 export function Sidebar() {
   const [activeButton, setActiveButton] = useState<string | null>(null);
 
   const topButtons = [
-    { icon: Download, label: 'save' },
+    { icon: Download, label: 'save', href: '/' },
     { icon: RefreshCw, label: 'remux' },
   ]
 
   const bottomButtons = [
-    { icon: Settings, label: 'settings' },
-    { icon: History, label: 'changelog' },
-    { icon: Info, label: 'about' },
+    { icon: Settings, label: 'settings', href: '/settings/default' },
+    { icon: History, label: 'changelog', href: '/changelog' },
+    { icon: Info, label: 'about', href: '/about/general' },
   ]
 
   return (
-    <aside className="w-[100px] bg-card backdrop-blur-sm text-card-foreground flex flex-col h-screen border-r">
+    <aside className="fixed left-0 top-0 w-[100px] bg-card backdrop-blur-sm text-card-foreground flex flex-col h-screen border-r">
       <div className="py-4 flex flex-col">
         <div className="px-2 mb-4 flex justify-center">
           <ThemeToggle />
