@@ -26,12 +26,12 @@ const SidebarButton = ({ icon: Icon, label, isActive, onClick, className, href }
         !isActive && "text-foreground",
         "hover:bg-[#00000010] dark:hover:bg-[#ffffff10]",
         "hover:text-current",
-        "active:scale-75 transform duration-75 hover:scale-105",
+        "active:scale-90 transform duration-75 hover:scale-105",
         "[&>svg]:!w-[22px] [&>svg]:!h-[22px] [&>svg]:stroke-[1.2]",
         isActive && "bg-[#00000010] dark:bg-[#ffffff10] hover:bg-[#00000010] dark:hover:bg-[#ffffff10] cursor-default",
         className
       )}
-      onClick={onClick}
+      onClick={href ? undefined : onClick}
       disabled={isActive}
     >
       <Icon />
@@ -40,7 +40,11 @@ const SidebarButton = ({ icon: Icon, label, isActive, onClick, className, href }
   )
 
   if (href) {
-    return <Link href={href}>{button}</Link>
+    return (
+      <Link href={href} onClick={onClick} className="w-full block">
+        {button}
+      </Link>
+    );
   }
 
   return button
@@ -61,7 +65,7 @@ export function Sidebar() {
   ]
 
   return (
-    <aside className="fixed left-0 top-0 w-[100px] bg-card backdrop-blur-sm text-card-foreground flex flex-col h-screen border-r">
+    <aside className="fixed left-0 top-0 w-[70px] bg-card backdrop-blur-sm text-card-foreground flex flex-col h-screen border-r">
       <div className="py-4 flex flex-col">
         <div className="px-2 mb-4 flex justify-center">
           <ThemeToggle />
