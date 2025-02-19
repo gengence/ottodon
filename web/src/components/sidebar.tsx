@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Download, RefreshCw, Settings, History, Info, type LucideIcon } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 interface SidebarButtonProps {
   icon: LucideIcon;
@@ -14,15 +15,15 @@ const SidebarButton = ({ icon: Icon, label, className }: SidebarButtonProps) => 
   <Button 
     variant="ghost" 
     className={cn(
-      "w-full h-auto hover:bg-white/5 rounded-lg transition-all flex flex-col items-center justify-center",
-      "text-white hover:text-white focus:text-white min-h-[80px] p-0",
-      "border-none focus:ring-1 focus:ring-white/10",
+      "w-full h-auto rounded-lg transition-all flex flex-col items-center justify-center",
+      "min-h-[80px] p-0 text-[#586e75]",
+      "hover:bg-[#00000010] dark:hover:bg-[#ffffff10]",
       "[&>svg]:!w-[24px] [&>svg]:!h-[24px] [&>svg]:stroke-[1.2]",
       className
     )}
   >
     <Icon />
-    <span className="text-xs font-light tracking-wide mt-1.5">{label}</span>
+    <span className="text-xs font-light tracking-wide mt-0.5">{label}</span>
   </Button>
 )
 
@@ -39,10 +40,10 @@ export function Sidebar() {
   ]
 
   return (
-    <aside className="w-[100px] bg-blue-600/90 backdrop-blur-sm text-white flex flex-col h-screen shadow-lg">
+    <aside className="w-[100px] bg-card backdrop-blur-sm text-card-foreground flex flex-col h-screen border-r">
       <div className="py-4 flex flex-col">
-        <div className="px-2 mb-4 text-center">
-          <span className="text-2xl font-bold">&gt;&gt;</span>
+        <div className="px-2 mb-4 flex justify-center">
+          <ThemeToggle />
         </div>
         
         <nav className="flex flex-col">
@@ -52,7 +53,7 @@ export function Sidebar() {
         </nav>
       </div>
 
-      <div className="mt-auto flex flex-col border-t border-white/5">
+      <div className="mt-auto flex flex-col">
         {bottomButtons.map((button, index) => (
           <SidebarButton key={index} {...button} />
         ))}

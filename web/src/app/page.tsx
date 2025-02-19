@@ -3,10 +3,11 @@ import Image from "next/image";
 import { Sidebar } from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link as LinkIcon } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen bg-custom-bgblue">
+    <div className="flex min-h-screen">
       <Sidebar />
 
       <main className="flex-1 p-6 flex flex-col">
@@ -25,42 +26,47 @@ export default function Home() {
 
           {/* Input Field */}
           <div className="w-full relative">
-            <Input
-              type="text"
-              placeholder="paste the link here"
-              className="px-4 py-2 text-sm"
-            />
-            <Button 
-              className="absolute right-2 top-1/2 -translate-y-1/2"
-              variant="secondary"
-              size="sm"
-            >
-              paste
-            </Button>
+            <div className="relative">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#586e75]/70">
+                <LinkIcon className="h-4 w-4" />
+              </div>
+              <Input
+                type="text"
+                placeholder="paste the link here"
+                className="px-4 py-2 text-sm text-[#586e75] placeholder:text-[#586e75]/70 pl-9 pr-16"
+              />
+              <Button 
+                className="absolute right-0 top-0 bottom-0 text-[#586e75] hover:bg-[#00000010] dark:hover:bg-[#ffffff10] rounded-l-none h-full"
+                variant="ghost"
+                size="sm"
+              >
+                paste
+              </Button>
+            </div>
           </div>
 
           {/* Action Buttons */}
           <div className="flex gap-2">
             <Button 
-              variant="default"
+              variant="ghost"
               size="sm"
-              className="gap-1.5"
+              className="gap-1.5 text-[#586e75] hover:bg-[#00000010] dark:hover:bg-[#ffffff10]"
             >
               <span className="text-lg">✨</span>
               auto
             </Button>
             <Button 
-              variant="secondary"
+              variant="ghost"
               size="sm"
-              className="gap-1.5"
+              className="gap-1.5 text-[#586e75] hover:bg-[#00000010] dark:hover:bg-[#ffffff10]"
             >
               <span className="text-lg">🎵</span>
               audio
             </Button>
             <Button 
-              variant="outline"
+              variant="ghost"
               size="sm"
-              className="gap-1.5"
+              className="gap-1.5 text-[#586e75] hover:bg-[#00000010] dark:hover:bg-[#ffffff10]"
             >
               <span className="text-lg">🔇</span>
               mute
@@ -68,11 +74,11 @@ export default function Home() {
           </div>
 
           {/* Footer */}
-          <div className="text-center text-xs text-gray-500 mt-8">
+          <div className="text-center text-xs text-[#586e75] mt-8">
             by using this website, you agree to the{" "}
             <Link 
               href="/terms" 
-              className="font-medium underline underline-offset-4 hover:text-gray-800"
+              className="font-medium underline underline-offset-4 hover:text-[#586e75]/70"
             >
               terms and ethical usages
             </Link>{" "}
