@@ -1,9 +1,9 @@
 export default function PrivacyPage() {
   return (
     <div className="max-w-3xl">
-      <h1 className="text-3xl font-semibold mb-6 text-[#586e75]">Privacy Policy</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-foreground">Privacy Policy</h1>
       
-      <div className="space-y-6 text-[#586e75]">
+      <div className="space-y-6 text-foreground">
         <h2 className="text-2xl font-semibold mb-4">Zero Data Collection</h2>
         <p>
           We take your privacy seriously. Ottodon operates on a strict zero-data collection policy:

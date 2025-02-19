@@ -1,9 +1,9 @@
 export default function GeneralPage() {
   return (
     <div className="max-w-3xl">
-      <h1 className="text-3xl font-semibold mb-6 text-[#586e75]">What&apos;s Ottodon?</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-foreground">What&apos;s Ottodon?</h1>
       
-      <div className="space-y-6 text-[#586e75]">
+      <div className="space-y-6 text-foreground">
         <p>
           Ottodon helps you save anything from your favorite websites: video, audio, photos,
           or gifs. Just paste the link and you&apos;re ready to rock!

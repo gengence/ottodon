@@ -76,19 +76,19 @@ export default function ChangelogPage() {
     <div className="pl-[100px] min-h-screen bg-background flex justify-center">
       <main className="w-[800px] p-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-semibold mb-4 text-[#586e75]">Changelog</h1>
-          <p className="text-[#586e75]/70">New updates and improvements</p>
+          <h1 className="text-4xl font-semibold mb-4 text-foreground">Changelog</h1>
+          <p className="text-foreground/70">New updates and improvements</p>
         </div>
         
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-[8.5rem] top-0 bottom-0 w-px bg-[#586e75]/10" />
+          <div className="absolute left-[8.5rem] top-0 bottom-0 w-px bg-foreground/10" />
           
           <div className="space-y-16">
             {changelogEntries.map((entry, index) => (
               <div key={index} className="relative grid grid-cols-[8rem_1fr] gap-12">
                 {/* Date column */}
-                <div className="text-sm text-[#586e75]/70">
+                <div className="text-sm text-foreground/70">
                   <div>{entry.date}</div>
                   {entry.version && (
                     <div className="mt-1 font-mono">{entry.version}</div>
@@ -99,9 +99,9 @@ export default function ChangelogPage() {
                 <div>
                   <div className="flex items-center gap-3 mb-4">
                     {/* Timeline dot */}
-                    <div className="absolute left-[8.25rem] top-[0.5rem] w-2 h-2 rounded-full bg-[#586e75] ring-4 ring-background" />
+                    <div className="absolute left-[8.25rem] top-[0.5rem] w-2 h-2 rounded-full bg-foreground ring-4 ring-background" />
                     
-                    <h2 className="text-xl font-medium text-[#586e75]">
+                    <h2 className="text-xl font-medium text-foreground">
                       {entry.title}
                     </h2>
                     
@@ -110,7 +110,7 @@ export default function ChangelogPage() {
                         <Badge
                           key={tagIndex}
                           variant="secondary"
-                          className="bg-[#586e75]/5 text-[#586e75] hover:bg-[#586e75]/10"
+                          className="bg-foreground/5 text-foreground hover:bg-foreground/10"
                         >
                           {tag}
                         </Badge>
@@ -118,10 +118,10 @@ export default function ChangelogPage() {
                     </div>
                   </div>
 
-                  <ul className="space-y-2 text-[#586e75]">
+                  <ul className="space-y-2 text-foreground">
                     {entry.description.map((item, itemIndex) => (
                       <li key={itemIndex} className="flex items-start">
-                        <span className="mr-3 mt-2 w-1 h-1 rounded-full bg-[#586e75]" />
+                        <span className="mr-3 mt-2 w-1 h-1 rounded-full bg-foreground" />
                         {item}
                       </li>
                     ))}

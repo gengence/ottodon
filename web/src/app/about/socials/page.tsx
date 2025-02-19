@@ -4,9 +4,9 @@ import { Github } from "lucide-react";
 export default function SocialsPage() {
   return (
     <div className="max-w-3xl">
-      <h1 className="text-3xl font-semibold mb-6 text-[#586e75]">Connect With Us</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-foreground">Connect With Us</h1>
       
-      <div className="space-y-6 text-[#586e75]">
+      <div className="space-y-6 text-foreground">
         <p className="mb-8">
           Follow our development and contribute to the project:
         </p>
@@ -19,7 +19,7 @@ export default function SocialsPage() {
           >
             <Button
               variant="outline"
-              className="gap-2 text-[#586e75] hover:bg-[#00000010] dark:hover:bg-[#ffffff10]"
+              className="gap-2 text-foreground hover:bg-[#00000010] dark:hover:bg-[#ffffff10]"
             >
               <Github className="w-5 h-5" />
               GitHub Repository

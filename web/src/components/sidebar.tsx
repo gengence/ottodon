@@ -23,7 +23,7 @@ const SidebarButton = ({ icon: Icon, label, isActive, onClick, className, href }
       className={cn(
         "w-full h-auto rounded-xl transition-all flex flex-col items-center justify-center",
         "min-h-[70px] p-0",
-        !isActive && "text-[#586e75]",
+        !isActive && "text-foreground",
         "hover:bg-[#00000010] dark:hover:bg-[#ffffff10]",
         "hover:text-current",
         "active:scale-75 transform duration-75 hover:scale-105",
