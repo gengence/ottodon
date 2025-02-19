@@ -4,31 +4,43 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Download, RefreshCw, Settings, History, Info, type LucideIcon } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { useState } from "react"
 
 interface SidebarButtonProps {
   icon: LucideIcon;
   label: string;
+  isActive?: boolean;
+  onClick?: () => void;
   className?: string;
 }
 
-const SidebarButton = ({ icon: Icon, label, className }: SidebarButtonProps) => (
-  <Button 
-    variant="ghost" 
-    className={cn(
-      "w-full h-auto rounded-md transition-all flex flex-col items-center justify-center",
-      "min-h-[80px] p-0 text-[#586e75]",
-      "hover:bg-[#00000010] dark:hover:bg-[#ffffff10]",
-      "active:scale-90 transform duration-100",
-      "[&>svg]:!w-[24px] [&>svg]:!h-[24px] [&>svg]:stroke-[1.2]",
-      className
-    )}
-  >
-    <Icon />
-    <span className="text-xs font-light tracking-wide mt-0.5">{label}</span>
-  </Button>
+const SidebarButton = ({ icon: Icon, label, isActive, onClick, className }: SidebarButtonProps) => (
+  <div className="px-2">
+    <Button 
+      variant="ghost" 
+      className={cn(
+        "w-full h-auto rounded-xl transition-all flex flex-col items-center justify-center",
+        "min-h-[70px] p-0",
+        !isActive && "text-[#586e75]",
+        "hover:bg-[#00000010] dark:hover:bg-[#ffffff10]",
+        "hover:text-current",
+        "active:scale-75 transform duration-75 hover:scale-105",
+        "[&>svg]:!w-[22px] [&>svg]:!h-[22px] [&>svg]:stroke-[1.2]",
+        isActive && "bg-[#00000010] dark:bg-[#ffffff10] hover:bg-[#00000010] dark:hover:bg-[#ffffff10] cursor-default",
+        className
+      )}
+      onClick={onClick}
+      disabled={isActive}
+    >
+      <Icon />
+      <span className="text-[11px] font-light tracking-wide mt-0.5">{label}</span>
+    </Button>
+  </div>
 )
 
 export function Sidebar() {
+  const [activeButton, setActiveButton] = useState<string | null>(null);
+
   const topButtons = [
     { icon: Download, label: 'save' },
     { icon: RefreshCw, label: 'remux' },
@@ -49,14 +61,24 @@ export function Sidebar() {
         
         <nav className="flex flex-col">
           {topButtons.map((button, index) => (
-            <SidebarButton key={index} {...button} />
+            <SidebarButton 
+              key={index} 
+              {...button} 
+              isActive={activeButton === button.label}
+              onClick={() => setActiveButton(button.label)}
+            />
           ))}
         </nav>
       </div>
 
       <div className="mt-auto flex flex-col">
         {bottomButtons.map((button, index) => (
-          <SidebarButton key={index} {...button} />
+          <SidebarButton 
+            key={index} 
+            {...button} 
+            isActive={activeButton === button.label}
+            onClick={() => setActiveButton(button.label)}
+          />
         ))}
       </div>
     </aside>
