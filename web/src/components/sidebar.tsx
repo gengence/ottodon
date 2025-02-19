@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { Download, RefreshCw, Settings, Star, Info, type LucideIcon } from "lucide-react"
+import { Download, RefreshCw, Settings, History, Info, type LucideIcon } from "lucide-react"
 
 interface SidebarButtonProps {
   icon: LucideIcon;
@@ -34,7 +34,7 @@ export function Sidebar() {
 
   const bottomButtons = [
     { icon: Settings, label: 'settings' },
-    { icon: Star, label: 'changelog' },
+    { icon: History, label: 'changelog' },
     { icon: Info, label: 'about' },
   ]
 
