@@ -15,9 +15,10 @@ const SidebarButton = ({ icon: Icon, label, className }: SidebarButtonProps) => 
   <Button 
     variant="ghost" 
     className={cn(
-      "w-full h-auto rounded-lg transition-all flex flex-col items-center justify-center",
+      "w-full h-auto rounded-md transition-all flex flex-col items-center justify-center",
       "min-h-[80px] p-0 text-[#586e75]",
       "hover:bg-[#00000010] dark:hover:bg-[#ffffff10]",
+      "active:scale-90 transform duration-100",
       "[&>svg]:!w-[24px] [&>svg]:!h-[24px] [&>svg]:stroke-[1.2]",
       className
     )}
