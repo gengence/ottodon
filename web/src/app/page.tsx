@@ -83,7 +83,7 @@ export default function Home() {
               >
                 here
               </a>
-              , we don&apos;t bite.
+              . We don&apos;t bite.
             </p>
           </div>
 
