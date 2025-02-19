@@ -1,16 +1,16 @@
 export default function Licenses() {
   return (
     <div className="max-w-3xl">
-      <h1 className="text-3xl font-semibold mb-6 text-[#586e75]">Licenses & Attribution</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-foreground">Licenses & Attribution</h1>
       
-      <div className="space-y-6 text-[#586e75]">
+      <div className="space-y-6 text-foreground">
         <h2 className="text-2xl font-semibold mb-4">Open Source</h2>
         <p>
-          Ottodon is proudly open source software, licensed under the MIT License.
-          You can find the source code and contribute on our GitHub repository.
+          Ottodon is open source software, licensed under the MIT License.
+          You can find the source code and contribute on our <a href="https://github.com/gengence/ottodon" target="_blank" rel="noopener noreferrer" className="text-primary">GitHub repository</a>.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Core Technologies</h2>
+        <h2 className="text-2xl font-semibold mt-8 mb-4">Core</h2>
         <div className="space-y-4">
           <div className="bg-card p-4 rounded-lg border">
             <h3 className="font-medium mb-2">Next.js</h3>
@@ -61,7 +61,7 @@ export default function Licenses() {
         <div className="bg-card p-4 rounded-lg border mt-8">
           <p className="text-sm">
             We&apos;re grateful to all the open source projects that make Ottodon possible.
-            Full license texts are available in our GitHub repository.
+            Full license texts are available in our <a href="https://github.com/gengence/ottodon" target="_blank" rel="noopener noreferrer" className="text-primary">GitHub repository</a>.
           </p>
         </div>
       </div>

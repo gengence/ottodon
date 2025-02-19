@@ -158,7 +158,7 @@ export default function Settings() {
 
       {/* Save Button */}
       <div className="flex justify-end">
-        <Button className="bg-[#586e75] text-white hover:bg-[#586e75]/90">
+        <Button>
           Save Changes
         </Button>
       </div>

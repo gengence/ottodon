@@ -73,6 +73,18 @@ export default function Home() {
                 paste
               </Button>
             </div>
+            <p className="mt-2 text-sm text-foreground/70 text-center">
+              Rawdog it, throw anything you want it, it&apos;ll probably work. If it doesn&apos;t,{" "} bother us {" "}
+              <a 
+                href="https://github.com/gengence/ottodon"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground underline underline-offset-4 hover:text-foreground/70"
+              >
+                here
+              </a>
+              , we don&apos;t bite.
+            </p>
           </div>
 
           {/* File Upload */}

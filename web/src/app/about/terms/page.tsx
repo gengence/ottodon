@@ -6,7 +6,7 @@ export default function TermsPage() {
       <div className="space-y-6 text-foreground">
         <div className="bg-card p-4 rounded-lg border mb-8">
           <p className="text-sm">
-            Made with ❤️ by General Intelligence LLC
+            Orginally created and maintained by General Intelligence L.L.C.
           </p>
         </div>
 

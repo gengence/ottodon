@@ -41,34 +41,34 @@ body {
   }
 
   .dark {
-    /* Solarized Dark */
-    --background: 193 100% 11%; /* #012b36 */
-    --foreground: 44 100% 95%; /* Much lighter text */
+    /* Gray Dark Theme */
+    --background: 0 0% 10%; /* Dark gray background */
+    --foreground: 0 0% 95%; /* Light gray text */
     
-    --card: 193 100% 8%; /* #00212b */
-    --card-foreground: 44 100% 95%; /* Much lighter text */
+    --card: 0 0% 13%; /* Slightly lighter dark gray */
+    --card-foreground: 0 0% 95%; /* Light gray text */
     
-    --popover: 193 100% 8%;
-    --popover-foreground: 44 100% 95%;
+    --popover: 0 0% 13%;
+    --popover-foreground: 0 0% 95%;
     
-    --primary: 198 100% 31%;
-    --primary-foreground: 44 100% 99%;
+    --primary: 0 0% 85%;
+    --primary-foreground: 0 0% 10%;
     
-    --secondary: 193 100% 15%;
-    --secondary-foreground: 44 100% 95%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 95%;
     
-    --muted: 192 100% 13%;
-    --muted-foreground: 44 100% 85%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 85%;
     
-    --accent: 18 100% 45%;
-    --accent-foreground: 44 100% 99%;
+    --accent: 0 0% 25%;
+    --accent-foreground: 0 0% 95%;
     
-    --destructive: 1 100% 45%;
-    --destructive-foreground: 44 100% 99%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 95%;
     
-    --border: 193 100% 15%;
-    --input: 193 100% 15%;
-    --ring: 198 100% 31%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 85%;
   }
 }
 

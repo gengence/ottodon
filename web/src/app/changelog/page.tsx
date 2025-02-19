@@ -10,118 +10,61 @@ interface ChangelogEntry {
 
 const changelogEntries: ChangelogEntry[] = [
   {
-    version: "1.3.0",
-    date: "March 2024",
-    title: "Enhanced Media Processing",
-    description: [
-      "Improved video processing with better quality and faster speeds",
-      "Added support for 15+ new platforms",
-      "Introduced advanced format selection options",
-      "Optimized memory usage during processing"
-    ],
-    tags: ["Feature", "Performance"]
-  },
-  {
-    version: "1.2.0",
-    date: "March 2024",
-    title: "Dark Mode & UI Updates",
-    description: [
-      "Introduced system-wide dark mode support",
-      "Added smooth transitions between themes",
-      "Improved component consistency",
-      "Enhanced mobile responsiveness"
-    ],
-    tags: ["UI", "Feature"]
-  },
-  {
-    version: "1.1.1",
-    date: "February 2024",
-    title: "Privacy Enhancements",
-    description: [
-      "Strengthened zero-logs policy implementation",
-      "Added offline-first processing mode",
-      "Improved local file handling",
-      "Enhanced encryption for temporary data"
-    ],
-    tags: ["Privacy", "Security"]
-  },
-  {
-    version: "1.1.0",
-    date: "January 2024",
-    title: "Audio Features Update",
-    description: [
-      "Added advanced audio extraction options",
-      "Introduced quality presets for common formats",
-      "Improved metadata preservation",
-      "Added batch processing for audio files"
-    ],
-    tags: ["Feature", "Audio"]
-  },
-  {
     version: "1.0.0",
-    date: "December 2023",
+    date: "FEB 26, 2025",
     title: "Initial Release",
     description: [
       "Core video download functionality",
       "Basic format conversion support",
-      "Simple audio extraction",
-      "Cross-platform compatibility"
+      "Simple audio extraction"
     ],
-    tags: ["Release"]
+    tags: []
   }
 ];
 
 export default function Changelog() {
   return (
-    <div className="pl-[100px] min-h-screen bg-background flex justify-center">
-      <main className="w-[800px] p-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-semibold mb-4 text-foreground">Changelog</h1>
-          <p className="text-foreground/70">New updates and improvements</p>
+    <div className="min-h-screen bg-background flex justify-center pl-[240px]">
+      <main className="max-w-[1400px] w-full px-8 py-16">
+        <div className="mb-24 -ml-16">
+          <h1 className="text-7xl font-bold mb-6 text-foreground [text-shadow:_0_4px_8px_rgb(0_0_0_/_40%)] dark:[text-shadow:_0_0_20px_rgb(255_255_255_/_50%),_0_0_35px_rgb(255_255_255_/_40%),_0_0_50px_rgb(255_255_255_/_25%)]">Changelog</h1>
+          <p className="text-2xl text-foreground/70 [text-shadow:_0_2px_4px_rgb(0_0_0_/_30%)] dark:[text-shadow:_0_0_15px_rgb(255_255_255_/_40%),_0_0_30px_rgb(255_255_255_/_25%)]">New updates and improvements</p>
         </div>
         
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-[8.5rem] top-0 bottom-0 w-px bg-foreground/10" />
+          <div className="absolute left-1/2 -ml-[1px] top-0 bottom-0 w-[2px] bg-foreground/10" />
           
-          <div className="space-y-16">
+          <div className="space-y-32">
             {changelogEntries.map((entry, index) => (
-              <div key={index} className="relative grid grid-cols-[8rem_1fr] gap-12">
+              <div key={index} className="relative grid grid-cols-[1fr_1fr] gap-24">
                 {/* Date column */}
-                <div className="text-sm text-foreground/70">
-                  <div>{entry.date}</div>
+                <div className="text-right pr-24 flex flex-col items-end gap-3">
                   {entry.version && (
-                    <div className="mt-1 font-mono">{entry.version}</div>
+                    <Badge variant="outline" className="text-2xl py-2 px-6 font-mono">
+                      {entry.version}
+                    </Badge>
                   )}
+                  <Badge variant="outline" className="text-2xl py-2 px-6">
+                    {entry.date}
+                  </Badge>
                 </div>
 
                 {/* Content column */}
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
+                <div className="pl-24">
+                  <div className="mb-8">
                     {/* Timeline dot */}
-                    <div className="absolute left-[8.25rem] top-[0.5rem] w-2 h-2 rounded-full bg-foreground ring-4 ring-background" />
+                    <div className="absolute left-1/2 -ml-[8px] top-[1rem] w-4 h-4 rounded-full bg-foreground ring-4 ring-background" />
                     
-                    <h2 className="text-xl font-medium text-foreground">
+                    <h2 className="text-4xl font-medium text-foreground mb-2">
                       {entry.title}
                     </h2>
-                    
-                    <div className="flex gap-2">
-                      {entry.tags.map((tag, tagIndex) => (
-                        <Badge
-                          key={tagIndex}
-                          variant="secondary"
-                          className="bg-foreground/5 text-foreground hover:bg-foreground/10"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
                   </div>
 
-                  <ul className="space-y-2 text-foreground">
+                  <ul className="space-y-6 text-xl text-foreground">
                     {entry.description.map((item, itemIndex) => (
                       <li key={itemIndex} className="flex items-start">
-                        <span className="mr-3 mt-2 w-1 h-1 rounded-full bg-foreground" />
+                        <span className="mr-4 mt-[0.7rem] w-2 h-2 rounded-full bg-foreground" />
                         {item}
                       </li>
                     ))}
