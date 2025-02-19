@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Sidebar } from "@/components/sidebar";
 import "./globals.css";
 
 const sairaCondensed = localFont({
@@ -29,7 +30,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="flex min-h-screen">
+            <Sidebar />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
