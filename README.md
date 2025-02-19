@@ -1,2 +1,2 @@
-# tools
-Development codebase for URL utilities.
+# ottodon
+Development codebase for ottodon.
