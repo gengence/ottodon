@@ -14,7 +14,7 @@ export default function Home() {
           {/* Logo */}
           <div className="relative w-48 h-48 -mt-12">
             <Image
-              src="/placeholder-logo.png"
+              src="/fish.png"
               alt="Logo"
               fill
               sizes="(max-width: 768px) 100vw, 192px"
@@ -69,7 +69,7 @@ export default function Home() {
 
           {/* Footer */}
           <div className="text-center text-xs text-gray-500 mt-8">
-            By using this website, you agree to the{" "}
+            by using this website, you agree to the{" "}
             <Link 
               href="/terms" 
               className="font-medium underline underline-offset-4 hover:text-gray-800"
