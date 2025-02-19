@@ -9,27 +9,15 @@ export default function Home() {
     <div className="flex min-h-screen bg-custom-bgblue">
       <Sidebar />
 
-      <main className="flex-1 p-8 flex flex-col">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-semibold text-custom-textblue">Welcome</h1>
-          <Button 
-            variant="ghost" 
-            className="text-gray-600 hover:text-gray-800"
-          >
-            + Hello, Captain Ahab
-          </Button>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-12 max-w-4xl mx-auto w-full">
+      <main className="flex-1 p-6 flex flex-col">
+        <div className="flex-1 flex flex-col items-center justify-center gap-8 max-w-3xl mx-auto w-full">
           {/* Logo */}
-          <div className="relative w-80 h-80 -mt-20">
+          <div className="relative w-48 h-48 -mt-12">
             <Image
               src="/placeholder-logo.png"
               alt="Logo"
               fill
-              sizes="(max-width: 768px) 100vw, 320px"
+              sizes="(max-width: 768px) 100vw, 192px"
               className="object-contain"
               priority
             />
@@ -40,54 +28,56 @@ export default function Home() {
             <Input
               type="text"
               placeholder="paste the link here"
-              className="w-full px-6 py-8 text-xl h-auto rounded-lg"
+              className="px-4 py-2 text-sm"
             />
             <Button 
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 h-auto"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
               variant="secondary"
+              size="sm"
             >
               paste
             </Button>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-4">
+          <div className="flex gap-2">
             <Button 
-              size="lg"
-              className="h-auto py-4 px-8 text-lg font-medium"
+              variant="default"
+              size="sm"
+              className="gap-1.5"
             >
-              <span className="text-2xl mr-2">✨</span>
+              <span className="text-lg">✨</span>
               auto
             </Button>
             <Button 
               variant="secondary"
-              size="lg"
-              className="h-auto py-4 px-8 text-lg font-medium"
+              size="sm"
+              className="gap-1.5"
             >
-              <span className="text-2xl mr-2">🎵</span>
+              <span className="text-lg">🎵</span>
               audio
             </Button>
             <Button 
               variant="outline"
-              size="lg"
-              className="h-auto py-4 px-8 text-lg font-medium"
+              size="sm"
+              className="gap-1.5"
             >
-              <span className="text-2xl mr-2">🔇</span>
+              <span className="text-lg">🔇</span>
               mute
             </Button>
           </div>
-        </div>
 
-        {/* Footer */}
-        <div className="text-center text-sm text-gray-500 mt-12">
-          By using this website, you agree to the{" "}
-          <Link 
-            href="/terms" 
-            className="font-medium underline underline-offset-4 hover:text-gray-800"
-          >
-            terms and ethical usages
-          </Link>{" "}
-          of what you download.
+          {/* Footer */}
+          <div className="text-center text-xs text-gray-500 mt-8">
+            By using this website, you agree to the{" "}
+            <Link 
+              href="/terms" 
+              className="font-medium underline underline-offset-4 hover:text-gray-800"
+            >
+              terms and ethical usages
+            </Link>{" "}
+            of what you download.
+          </div>
         </div>
       </main>
     </div>

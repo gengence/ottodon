@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const sairaCondensed = localFont({
+  src: "../../public/fonts/SairaCondensed-Regular.ttf",
+  variable: "--font-saira",
+  fallback: ["Arial", "sans-serif"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Gungnir",
+  title: "Ottodon",
   description: "Things for everything.",
 };
 
@@ -24,9 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${sairaCondensed.variable} antialiased`}>
         {children}
       </body>
     </html>

@@ -2,15 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import {
-  Download,
-  RefreshCw,
-  Settings,
-  Heart,
-  Star,
-  Info,
-  type LucideIcon
-} from "lucide-react"
+import { Download, RefreshCw, Settings, Star, Info, type LucideIcon } from "lucide-react"
 
 interface SidebarButtonProps {
   icon: LucideIcon;
@@ -23,35 +15,34 @@ const SidebarButton = ({ icon: Icon, label, className }: SidebarButtonProps) => 
     variant="ghost" 
     className={cn(
       "w-full h-auto hover:bg-white/5 rounded-lg transition-all flex flex-col items-center justify-center",
-      "text-white hover:text-white focus:text-white min-h-[160px] p-0",
+      "text-white hover:text-white focus:text-white min-h-[80px] p-0",
       "border-none focus:ring-1 focus:ring-white/10",
-      "[&>svg]:!w-[48px] [&>svg]:!h-[48px] [&>svg]:stroke-[1.2]", // Using exact pixel values
+      "[&>svg]:!w-[24px] [&>svg]:!h-[24px] [&>svg]:stroke-[1.2]",
       className
     )}
   >
     <Icon />
-    <span className="text-lg font-light tracking-wide mt-3">{label}</span>
+    <span className="text-xs font-light tracking-wide mt-1.5">{label}</span>
   </Button>
 )
 
 export function Sidebar() {
   const topButtons = [
-    { icon: Download, label: 'download' },
+    { icon: Download, label: 'save' },
     { icon: RefreshCw, label: 'remux' },
   ]
 
   const bottomButtons = [
     { icon: Settings, label: 'settings' },
-    { icon: Heart, label: 'donate' },
-    { icon: Star, label: 'updates' },
+    { icon: Star, label: 'changelog' },
     { icon: Info, label: 'about' },
   ]
 
   return (
-    <aside className="w-[180px] bg-blue-600/90 backdrop-blur-sm text-white flex flex-col h-screen shadow-lg">
-      <div className="py-8 flex flex-col">
-        <div className="px-6 mb-12 text-center">
-          <span className="text-4xl font-bold">&gt;&gt;</span>
+    <aside className="w-[100px] bg-blue-600/90 backdrop-blur-sm text-white flex flex-col h-screen shadow-lg">
+      <div className="py-4 flex flex-col">
+        <div className="px-2 mb-4 text-center">
+          <span className="text-2xl font-bold">&gt;&gt;</span>
         </div>
         
         <nav className="flex flex-col">
