@@ -32,7 +32,7 @@ export default function Home() {
           )}>
             {isDragActive && (
               <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="border-2 border-dashed border-foreground/30 rounded-lg w-full h-full flex flex-col items-center justify-center bg-transparent">
+                <div className="border-2 border-dashed border-foreground/30 rounded-lg max-w-3xl w-full h-[500px] flex flex-col items-center justify-center bg-transparent">
                   <div className="bg-card/50 backdrop-blur-sm p-4 rounded-lg shadow-lg flex flex-col items-center gap-2">
                     <Upload className="w-8 h-8 text-foreground" />
                     <span className="text-foreground">Drop your file here</span>
