@@ -3,6 +3,7 @@ import { processFile } from '../services/fileProcessing';
 import { FileData } from '../middleware/fileHandler';
 import { MediaAdapter } from '../adapters/types';
 import { getAdapter } from '../adapters/factory';
+import { mimeTypes } from '../types/mimeTypes';
 
 // Creates global store persisting between requests
 declare global {
@@ -80,33 +81,31 @@ class FileQueue {
     const job = this.jobs.get(jobId);
     if (!job) throw new Error('Job not found');
 
-    const buffer = job.file.buffer;  // Gets buffer from job
+    const buffer = job.file.buffer;
     if (!buffer) throw new Error('File buffer not found');
-
-    console.log('Job details:', {
-      mimeType: job.file.mimeType,
-      originalSize: buffer.length
-    });
 
     const adapter = this.getAdapter(job.file.mimeType);
     if (!adapter) throw new Error('No adapter found for file type');
 
     try {
+      job.status = 'processing';
+      this.jobs.set(jobId, job);
+
       const convertedBuffer = await adapter.manipulate(buffer, 'convert', { format });
       console.log('Conversion successful, new size:', convertedBuffer.length);
       
-      const result = await adapter.process(convertedBuffer, {});
-      console.log('Processing result:', result);
-
-      // Updates job with new result and buffer
       const updatedJob: Job = {
         ...job,
         status: 'completed' as JobStatus,
         file: {
           ...job.file,
-          buffer: convertedBuffer  // Store converted buffer
+          buffer: convertedBuffer
         },
-        result
+        result: {
+          url: URL.createObjectURL(new Blob([convertedBuffer])),
+          mimeType: mimeTypes[format as keyof typeof mimeTypes] || 'application/octet-stream',
+          size: convertedBuffer.length
+        }
       };
       this.jobs.set(jobId, updatedJob);
 

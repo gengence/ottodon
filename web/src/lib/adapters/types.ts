@@ -8,6 +8,7 @@ export interface ProcessingResult {
     format?: string;
     hasAlpha?: boolean;
     duration?: number;  //Audio + video
+    availableConversions?: string[];  // Add this for document conversions
   };
 }
 

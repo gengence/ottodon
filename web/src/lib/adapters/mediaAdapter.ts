@@ -1,194 +1,111 @@
-import ffmpeg from 'fluent-ffmpeg';
-import type { FfprobeData } from 'fluent-ffmpeg';
 import { MediaAdapter, ProcessingResult } from './types';
-import { writeFile, mkdir, readFile, unlink } from 'fs/promises';
+import { mkdir } from 'fs/promises';
 import { join } from 'path';
+import ffmpeg from 'fluent-ffmpeg';
+import { fileTypeFromBuffer } from 'file-type';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { promisify } from 'util';
+import { writeFile, readFile, unlink } from 'fs/promises';
 import { randomUUID } from 'crypto';
 
-interface FFmpegMetadata {
-  format: {
-    format_name: string;
-    duration: number;
-  };
-  streams: Array<{
-    codec_type?: string;
-    width?: number;
-    height?: number;
-  }>;
-}
+type VideoFormat = 'mp4' | 'webm' | 'gif';
 
 export class MediaProcessor implements MediaAdapter {
-  private isFFmpegAvailable: boolean = false;
-
   private supportedVideoTypes = new Set([
     'video/mp4', 'video/webm', 'video/quicktime',
     'video/x-msvideo', 'video/x-matroska'
   ]);
 
-  private supportedAudioTypes = new Set([
-    'audio/mpeg', 'audio/wav', 'audio/ogg',
-    'audio/x-m4a', 'audio/flac'
-  ]);
+  private supportedConversions: Record<VideoFormat, string[]> = {
+    'mp4': ['webm', 'gif'],
+    'webm': ['mp4', 'gif'],
+    'gif': ['mp4', 'webm']
+  };
 
   private tempDir = join(process.cwd(), 'temp');
 
   constructor() {
-    // Check FFmpeg availability
-    this.checkFFmpegAvailability();
     mkdir(this.tempDir, { recursive: true }).catch(console.error);
   }
 
-  private async checkFFmpegAvailability(): Promise<void> {
-    try {
-      await new Promise<void>((resolve, reject) => {
-        ffmpeg.ffprobe('test', (err) => {
-          if (err && !err.message.includes('No such file')) {
-            reject(err);
-          }
-          resolve();
-        });
-      });
-      this.isFFmpegAvailable = true;
-    } catch (error) {
-      console.error('FFmpeg not available:', error);
-      this.isFFmpegAvailable = false;
-    }
-  }
-
   supports(mimeType: string): boolean {
-    //Only support media types if FFmpeg is available
-    return this.isFFmpegAvailable && (
-      this.supportedVideoTypes.has(mimeType) || 
-      this.supportedAudioTypes.has(mimeType)
-    );
+    return this.supportedVideoTypes.has(mimeType);
   }
 
+  async process(buffer: Buffer): Promise<ProcessingResult> {
+    const fileType = await fileTypeFromBuffer(buffer);
+    const format = fileType?.ext as VideoFormat || 'mp4';
+    const availableConversions = this.supportedConversions[format] || [];
 
-  //lint below
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async process(buffer: Buffer, _options: unknown): Promise<ProcessingResult> {
-    if (!this.isFFmpegAvailable) {
-      throw new Error('FFmpeg is not available. Please install FFmpeg to process media files.');
-    }
-
-    const tempPath = join(this.tempDir, `${randomUUID()}`);
-    await writeFile(tempPath, buffer);
-
-    try {
-      const metadata = await this.getMetadata(tempPath);
-      const isVideo = metadata.streams.some(s => s.codec_type === 'video');
-
-      return {
-        url: URL.createObjectURL(new Blob([buffer])),
-        mimeType: isVideo ? 'video/mp4' : 'audio/mpeg',
-        size: buffer.length,
-        metadata: {
-          width: isVideo ? metadata.streams[0].width : undefined,
-          height: isVideo ? metadata.streams[0].height : undefined,
-          format: metadata.format.format_name,
-          duration: metadata.format.duration
-        }
-      };
-    } catch (error) {
-      console.error('FFmpeg metadata error:', error);
-      // Fallback to basic processing if FFmpeg fails
-      return {
-        url: URL.createObjectURL(new Blob([buffer])),
-        mimeType: 'application/octet-stream',
-        size: buffer.length
-      };
-    } finally {
-      await unlink(tempPath).catch(console.error);
-    }
-  }
-
-  private getMetadata(filePath: string): Promise<FFmpegMetadata> {
-    return new Promise((resolve, reject) => {
-      ffmpeg.ffprobe(filePath, (err, data: FfprobeData) => {
-        if (err) reject(err);
-        else resolve({
-          format: {
-            format_name: data.format.format_name || 'unknown',
-            duration: Number(data.format.duration) || 0
-          },
-          streams: data.streams.map(stream => ({
-            codec_type: stream.codec_type,
-            width: stream.width,
-            height: stream.height
-          }))
-        });
-      });
-    });
+    return {
+      url: URL.createObjectURL(new Blob([buffer])),
+      mimeType: fileType?.mime || 'video/mp4',
+      size: buffer.length,
+      metadata: {
+        format,
+        availableConversions
+      }
+    };
   }
 
   async manipulate(buffer: Buffer, operation: string, params: Record<string, unknown>): Promise<Buffer> {
-    const tempInput = join(this.tempDir, `in_${randomUUID()}`);
-    const tempOutput = join(this.tempDir, `out_${randomUUID()}`);
-    await writeFile(tempInput, buffer);
-
     try {
       switch (operation) {
-        case 'trim':
-          await this.trim(tempInput, tempOutput, params);
-          break;
-        case 'convert':
-          await this.convert(tempInput, tempOutput, params);
-          break;
-        case 'extract-audio':
-          await this.extractAudio(tempInput, tempOutput);
-          break;
+        case 'convert': {
+          const format = params.format as string;
+          console.log('Converting video to:', format);
+
+          const inputPath = join(this.tempDir, `input-${randomUUID()}`);
+          const outputPath = join(this.tempDir, `output-${randomUUID()}.${format}`);
+
+          await writeFile(inputPath, buffer);
+
+          await new Promise<void>((resolve, reject) => {
+            const command = ffmpeg(inputPath);
+
+            if (format === 'gif') {
+              command
+                .fps(10)
+                .size('320x?')
+                .format('gif');
+            } else if (format === 'webm') {
+              command
+                .videoCodec('libvpx')
+                .videoBitrate('1000k')
+                .audioCodec('libvorbis')
+                .format('webm');
+            } else if (format === 'mp4') {
+              command
+                .videoCodec('libx264')
+                .videoBitrate('1000k')
+                .audioCodec('aac')
+                .format('mp4');
+            }
+
+            command
+              .output(outputPath)
+              .on('end', () => resolve())
+              .on('error', (err) => reject(err))
+              .run();
+          });
+
+          const convertedBuffer = await readFile(outputPath);
+
+          // Cleanup
+          await Promise.all([
+            unlink(inputPath).catch(() => {}),
+            unlink(outputPath).catch(() => {})
+          ]);
+
+          return convertedBuffer;
+        }
         default:
           throw new Error(`Unsupported operation: ${operation}`);
       }
-
-      //Return the file buffer instead of metadata
-      return await readFile(tempOutput);
-    } finally {
-      await unlink(tempInput).catch(console.error);
-      await unlink(tempOutput).catch(console.error);
+    } catch (error) {
+      console.error('Video manipulation error:', error);
+      throw error;
     }
-  }
-
-  private trim(input: string, output: string, params: Record<string, unknown>): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      ffmpeg(input)
-        .setStartTime(params.start as number)
-        .setDuration((params.end as number) - (params.start as number))
-        .output(output)
-        .on('end', () => resolve())
-        .on('error', (err: Error) => reject(err))
-        .run();
-    });
-  }
-
-  private convert(input: string, output: string, params: Record<string, unknown>): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      const command = ffmpeg(input);
-      
-      if (params.format === 'gif') {
-        command.toFormat('gif')
-          .fps(10)
-          .size('320x?');
-      } else {
-        command.toFormat(params.format as string);
-      }
-
-      command.output(output)
-        .on('end', () => resolve())
-        .on('error', (err: Error) => reject(err))
-        .run();
-    });
-  }
-
-  private extractAudio(input: string, output: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      ffmpeg(input)
-        .toFormat('mp3')
-        .output(output)
-        .on('end', () => resolve())
-        .on('error', (err: Error) => reject(err))
-        .run();
-    });
   }
 }
 
