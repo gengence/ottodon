@@ -6,19 +6,18 @@ import { convert } from 'libreoffice-convert';
 import { promisify } from 'util';
 import fs from 'fs';
 
-// Promisify the convert function
 const convertPromise = promisify<Buffer, string, undefined, Buffer>(convert);
 
-// Common LibreOffice paths to check
+// LibreOffice paths
 const possiblePaths = [
-  '/Applications/LibreOffice.app/Contents/MacOS/soffice',  // macOS
+  '/Applications/LibreOffice.app/Contents/MacOS/soffice',  // mac
   'C:\\Program Files\\LibreOffice\\program\\soffice.exe',  // Windows
-  'C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe',  // Windows 32-bit
+  'C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe',  // Windows 32b
   '/usr/bin/libreoffice',  // Linux
-  '/usr/bin/soffice'  // Linux alternative
+  '/usr/bin/soffice'  // Linux alt
 ];
 
-// Find first existing LibreOffice installation
+// Find possible branch
 const LIBRE_OFFICE_PATH = possiblePaths.find(path => fs.existsSync(path));
 
 if (!LIBRE_OFFICE_PATH) {

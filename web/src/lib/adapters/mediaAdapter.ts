@@ -3,8 +3,6 @@ import { mkdir } from 'fs/promises';
 import { join } from 'path';
 import ffmpeg from 'fluent-ffmpeg';
 import { fileTypeFromBuffer } from 'file-type';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { promisify } from 'util';
 import { writeFile, readFile, unlink } from 'fs/promises';
 import { randomUUID } from 'crypto';
 
