@@ -17,4 +17,4 @@ export const mimeTypes = {
   'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
   'txt': 'text/plain'
-} as const; 
+} as const;

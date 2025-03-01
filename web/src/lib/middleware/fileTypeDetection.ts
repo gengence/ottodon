@@ -20,9 +20,28 @@ const documentTypes = new Set([
 ]);
 
 export async function detectFileType(buffer: Buffer): Promise<FileDetails> {
-  const fileType = await fileTypeFromBuffer(buffer);
-  
+  let fileType;
+
+  try {
+    //Attepts to detect the file type using fileTypeFromBuffer
+    fileType = await fileTypeFromBuffer(buffer);
+  } catch (error) {
+    console.error('Error detecting file type:', error);
+    // Handle the error gracefully
+  }
+
+  // If fileType isn't detected, check if its .txt
   if (!fileType) {
+    // Check if the buffer has text content
+    const content = buffer.toString('utf-8', 0, 100); // Reads first 100
+    if (content.includes('\n') || content.includes('\r')) { // Checks for line breaks
+      return {
+        category: 'document',
+        mimeType: 'text/plain',
+        extension: 'txt'
+      };
+    }
+    
     return {
       category: 'unknown',
       mimeType: 'application/octet-stream',
@@ -32,7 +51,18 @@ export async function detectFileType(buffer: Buffer): Promise<FileDetails> {
 
   const { mime, ext } = fileType;
 
-  // Categorize based on mime type
+  console.log('Detected MIME type:', mime, 'with extension:', ext);
+
+  // Checks if the mime type is in the documentTypes set
+  if (documentTypes.has(mime) || ext === 'txt') {
+    return {
+      category: 'document',
+      mimeType: mime,
+      extension: ext
+    };
+  }
+
+  // Categorizes based on mime type
   if (mime.startsWith('image/')) {
     return {
       category: 'image',
@@ -52,14 +82,6 @@ export async function detectFileType(buffer: Buffer): Promise<FileDetails> {
   if (mime.startsWith('audio/')) {
     return {
       category: 'audio',
-      mimeType: mime,
-      extension: ext
-    };
-  }
-
-  if (documentTypes.has(mime)) {
-    return {
-      category: 'document',
       mimeType: mime,
       extension: ext
     };
