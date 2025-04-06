@@ -279,20 +279,15 @@ export default function Home() {
                 paste
               </Button>
             </div>
-            <p className="mt-2 text-sm text-foreground/70 text-center">
-              Rawdog it, throw anything you want it, it&apos;ll probably work. If it doesn&apos;t,{" "} bother us {" "}
-              <a 
-                href="https://github.com/gengence/ottodon"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground underline underline-offset-4 hover:text-foreground/70"
-              >
-                here
-              </a>
-              . We don&apos;t bite.
-            </p>
           </div>
-
+          
+          {/* Divider */}
+          <div className="flex items-center w-full">
+            <div className="flex-grow h-px bg-border"></div>
+            <span className="px-3 text-xs text-muted-foreground font-medium">or</span>
+            <div className="flex-grow h-px bg-border"></div>
+          </div>
+          
           {/* File Upload */}
           <div className="text-center">
             <label>

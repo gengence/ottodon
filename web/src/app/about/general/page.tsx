@@ -13,13 +13,6 @@ export default function General() {
           No ads, trackers, paywalls, or other nonsense.
         </p>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Our Mission</h2>
-        <p>
-          Ottodon was created for public benefit, to save people from ads 
-          pushed by its alternatives. We believe that the best software is safe, open, and
-          accessible.
-        </p>
-
         <h2 className="text-2xl font-semibold mt-8 mb-4">Privacy First</h2>
         <p>
           All requests to the backend are anonymous and all information about downloads is

@@ -16,7 +16,7 @@ export default function Social() {
             href="https://github.com/gengence/ottodon"
             icon={Github}
             title="github"
-            description="housing for ottodon's source code, development, and issues"
+            description="ottodon's source code, development, and issues"
             className="hover:bg-[#6e5494]/10"
           />
         </div>
