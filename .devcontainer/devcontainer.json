@@ -10,15 +10,11 @@
 				"dbaeumer.vscode-eslint",
 				"ms-azuretools.vscode-docker",
 				"pkief.material-icon-theme",
+				"waderyan.gitblame"
 			],
 			"settings": {
-				"editor.formatOnSave": true,
-				"editor.codeActionsOnSave": {
-					"source.fixAll.eslint": "always"
-				},
 				"typescript.tsdk": "web/node_modules/typescript",
-				"typescript.enablePromptUseWorkspaceTsdk": true,
-				"git.enableCommitSigning": false
+				"typescript.enablePromptUseWorkspaceTsdk": true
 			}
 		}
 	},
