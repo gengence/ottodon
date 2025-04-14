@@ -21,7 +21,7 @@
 
 	"forwardPorts": [3000],
 
-	"postCreateCommand": "cd web && pnpm install",
+	"postCreateCommand": "cd web && pnpm install && git config --global core.autocrlf false && git config --global core.eol lf && git reset --hard HEAD",
 	
 	"initializeCommand": "git config --global --add safe.directory ${localWorkspaceFolder}",
 	
