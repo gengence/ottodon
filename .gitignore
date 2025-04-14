@@ -14,6 +14,7 @@ Thumbs.db
 *.swo
 .cursor/
 .cursorrules
+.pnpm-store
 
 # Dependencies
 node_modules/
