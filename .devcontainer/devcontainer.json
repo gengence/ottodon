@@ -28,5 +28,11 @@
 
 	"forwardPorts": [3000],
 
-	"postCreateCommand": "cd web && pnpm install"
+	"postCreateCommand": "cd web && pnpm install",
+	
+	"initializeCommand": "git config --global --add safe.directory ${localWorkspaceFolder}",
+	
+	"mounts": [
+		"source=${localWorkspaceFolder}/.git,target=/workspaces/${localWorkspaceFolderBasename}/.git,type=bind,consistency=cached"
+	]
 } 
