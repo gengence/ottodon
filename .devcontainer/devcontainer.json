@@ -8,12 +8,8 @@
 		"vscode": {
 			"extensions": [
 				"dbaeumer.vscode-eslint",
-				"esbenp.prettier-vscode",
-				"bradlc.vscode-tailwindcss",
-				"ms-vscode.vscode-typescript-next",
-				"formulahendry.auto-rename-tag",
-				"christian-kohler.path-intellisense",
-				"streetsidesoftware.code-spell-checker"
+				"ms-azuretools.vscode-docker",
+				"pkief.material-icon-theme",
 			],
 			"settings": {
 				"editor.formatOnSave": true,
@@ -21,7 +17,8 @@
 					"source.fixAll.eslint": "always"
 				},
 				"typescript.tsdk": "web/node_modules/typescript",
-				"typescript.enablePromptUseWorkspaceTsdk": true
+				"typescript.enablePromptUseWorkspaceTsdk": true,
+				"git.enableCommitSigning": false
 			}
 		}
 	},
