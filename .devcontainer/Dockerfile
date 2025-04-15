@@ -1,12 +1,9 @@
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:latest
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:20
 
-RUN npm install -g pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
     git \
-    curl \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
-
-RUN usermod -u 1000 node && groupmod -g 1000 node
