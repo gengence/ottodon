@@ -13,12 +13,12 @@ export interface ManipulationOperation {
   options?: Record<string, unknown>;
 }
 
-export interface ManipulationOptions {
+export interface AvailableManipulations {
   conversions: ConversionOption[];
   operations: ManipulationOperation[];
 }
 
-const imageOptions: ManipulationOptions = {
+const imageOptions: AvailableManipulations = {
   conversions: [
     { format: 'jpeg', label: 'JPEG', quality: [60, 75, 90] },
     { format: 'png', label: 'PNG' },
@@ -52,7 +52,7 @@ const imageOptions: ManipulationOptions = {
   ]
 };
 
-const videoOptions: ManipulationOptions = {
+const videoOptions: AvailableManipulations = {
   conversions: [
     { format: 'mp4', label: 'MP4' },
     { format: 'webm', label: 'WebM' },
@@ -72,7 +72,7 @@ const videoOptions: ManipulationOptions = {
   ]
 };
 
-const audioOptions: ManipulationOptions = {
+const audioOptions: AvailableManipulations = {
   conversions: [
     { format: 'mp3', label: 'MP3' },
     { format: 'wav', label: 'WAV' },
@@ -92,7 +92,7 @@ const audioOptions: ManipulationOptions = {
   ]
 };
 
-const documentOptions: ManipulationOptions = {
+const documentOptions: AvailableManipulations = {
   conversions: [
     { format: 'pdf', label: 'PDF' },
     { format: 'docx', label: 'Word Document' },
@@ -107,8 +107,8 @@ const documentOptions: ManipulationOptions = {
   ]
 };
 
-export function getManipulationOptions(fileDetails: FileDetails): ManipulationOptions {
-  const getFilteredOptions = (options: ManipulationOptions): ManipulationOptions => ({
+export function getManipulationOptions(fileDetails: FileDetails): AvailableManipulations {
+  const getFilteredOptions = (options: AvailableManipulations): AvailableManipulations => ({
     ...options,
     conversions: options.conversions.filter(c => c.format !== fileDetails.extension)
   });

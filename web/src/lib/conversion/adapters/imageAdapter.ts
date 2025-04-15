@@ -1,7 +1,7 @@
 import sharp from 'sharp';
-import { MediaAdapter, ProcessingResult } from './types';
+import { MediaAdapter, ProcessingResult } from '../types';
 
-export class ImageAdapter implements MediaAdapter {
+export class ImageProcessor implements MediaAdapter {
   private supportedTypes = new Set([
     'image/jpeg', 'image/png', 'image/webp', 
     'image/gif', 'image/avif', 'image/tiff'
@@ -80,4 +80,4 @@ export class ImageAdapter implements MediaAdapter {
   }
 }
 
-export default ImageAdapter; 
+export default ImageProcessor; 

@@ -1,10 +1,10 @@
 import { MediaAdapter } from './types';
-import { ImageAdapter } from './imageAdapter';
-import { MediaProcessor } from './mediaAdapter';
-import { DocumentProcessor } from './documentAdapter';
+import { ImageProcessor } from './adapters/imageAdapter';
+import { MediaProcessor } from './adapters/mediaAdapter';
+import { DocumentProcessor } from './adapters/documentAdapter';
 
 const adapters: MediaAdapter[] = [
-  new ImageAdapter(),
+  new ImageProcessor(),
   new MediaProcessor(),
   new DocumentProcessor()
 ];

@@ -1,8 +1,8 @@
 import { Job, JobStatus } from './types';
 import { processFile } from '../services/fileProcessing';
 import { FileData } from '../middleware/fileHandler';
-import { MediaAdapter } from '../adapters/types';
-import { getAdapter } from '../adapters/factory';
+import { MediaAdapter } from '../conversion/types';
+import { getAdapter } from '../conversion/factory';
 import { mimeTypes } from '../types/mimeTypes';
 
 declare global {

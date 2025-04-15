@@ -1,5 +1,5 @@
 import { FileData } from '../middleware/fileHandler';
-import { getAdapter } from '../adapters/factory';
+import { getAdapter } from '../conversion/factory';
 import { Job } from '../queue/types';
 import { getManipulationOptions } from './manipulationOptions';
 
