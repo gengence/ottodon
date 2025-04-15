@@ -11,11 +11,7 @@
 				"ms-azuretools.vscode-docker",
 				"pkief.material-icon-theme",
 				"waderyan.gitblame"
-			],
-			"settings": {
-				"typescript.tsdk": "web/node_modules/typescript",
-				"typescript.enablePromptUseWorkspaceTsdk": true
-			}
+			]
 		}
 	},
 
