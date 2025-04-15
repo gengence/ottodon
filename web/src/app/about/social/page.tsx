@@ -1,5 +1,5 @@
 import { Github } from "lucide-react";
-import { SocialCard } from "../components/social-card";
+import { SocialCard } from "../../../components/social-card";
 
 export default function Social() {
   return (

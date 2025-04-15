@@ -11,15 +11,11 @@ export class ImageAdapter implements MediaAdapter {
     return this.supportedTypes.has(mimeType);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async process(buffer: Buffer, _options: unknown): Promise<ProcessingResult> {
-    //Initializes sharp with buffer
     const image = sharp(buffer);
 
-    // Image metadata
     const metadata = await image.metadata();
 
-    // Return basic info for initial processing
     return {
       url: URL.createObjectURL(new Blob([await image.toBuffer()])),
       mimeType: metadata.format ? `image/${metadata.format}` : 'image/unknown',
@@ -84,5 +80,4 @@ export class ImageAdapter implements MediaAdapter {
   }
 }
 
-// Remove the registerAdapter import and call
 export default ImageAdapter; 

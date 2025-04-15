@@ -89,7 +89,6 @@ export class MediaProcessor implements MediaAdapter {
 
           const convertedBuffer = await readFile(outputPath);
 
-          // Cleanup
           await Promise.all([
             unlink(inputPath).catch(() => {}),
             unlink(outputPath).catch(() => {})

@@ -5,7 +5,6 @@ export async function POST(request: NextRequest) {
   try {
     const { jobId, format, operation, params } = await request.json();
 
-    // Queue the conversion job
     const conversionJobId = await queueConversion({
       jobId,
       format,

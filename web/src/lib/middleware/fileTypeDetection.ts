@@ -10,11 +10,10 @@ export type FileDetails = {
 const documentTypes = new Set([
   'application/pdf',
   'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
-  'application/vnd.ms-excel',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // xlsx
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
   'application/vnd.ms-powerpoint',
-  'application/vnd.openxmlformats-officedocument.presentationml.presentation', // pptx
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation', 
   'text/plain',
   'application/rtf'
 ]);
@@ -32,7 +31,6 @@ export async function detectFileType(buffer: Buffer): Promise<FileDetails> {
 
   const { mime, ext } = fileType;
 
-  // Categorize based on mime type
   if (mime.startsWith('image/')) {
     return {
       category: 'image',
@@ -72,7 +70,6 @@ export async function detectFileType(buffer: Buffer): Promise<FileDetails> {
   };
 }
 
-// Supports file types by category
 export const supportedTypes = {
   image: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'tiff'],
   video: ['mp4', 'webm', 'mov', 'avi', 'mkv', 'm4v', 'flv'],

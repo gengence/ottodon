@@ -8,16 +8,14 @@ import fs from 'fs';
 
 const convertPromise = promisify<Buffer, string, undefined, Buffer>(convert);
 
-// LibreOffice paths
 const possiblePaths = [
-  '/Applications/LibreOffice.app/Contents/MacOS/soffice',  // mac
-  'C:\\Program Files\\LibreOffice\\program\\soffice.exe',  // Windows
-  'C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe',  // Windows 32b
-  '/usr/bin/libreoffice',  // Linux
-  '/usr/bin/soffice'  // Linux alt
+  '/Applications/LibreOffice.app/Contents/MacOS/soffice', 
+  'C:\\Program Files\\LibreOffice\\program\\soffice.exe', 
+  'C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe', 
+  '/usr/bin/libreoffice', 
+  '/usr/bin/soffice' 
 ];
 
-// Find possible branch
 const LIBRE_OFFICE_PATH = possiblePaths.find(path => fs.existsSync(path));
 
 if (!LIBRE_OFFICE_PATH) {

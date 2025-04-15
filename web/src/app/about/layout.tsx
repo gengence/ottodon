@@ -1,4 +1,4 @@
-import { AboutNavigation } from "./components/aboutnav";
+import { AboutNavigation } from "../../components/aboutnav";
 
 export default function AboutLayout({
   children,

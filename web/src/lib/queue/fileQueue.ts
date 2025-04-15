@@ -5,15 +5,11 @@ import { MediaAdapter } from '../adapters/types';
 import { getAdapter } from '../adapters/factory';
 import { mimeTypes } from '../types/mimeTypes';
 
-// Creates global store persisting between requests
 declare global {
-  // eslint-disable-next-line no-var
   var jobQueue: Map<string, Job>;
-  // eslint-disable-next-line no-var
   var jobCounter: number;
 }
 
-// Initializes global variables if they don't exist
 if (!global.jobQueue) {
   global.jobQueue = new Map<string, Job>();
   global.jobCounter = 0;
@@ -45,7 +41,7 @@ class FileQueue {
       progress: 0,
       file: {
         ...data.file,
-        buffer: data.buffer  // Stores buffer in job
+        buffer: data.buffer
       },
       options: data.options
     };
@@ -53,7 +49,6 @@ class FileQueue {
     this.jobs.set(id, job);
     console.log('Added job to queue:', { id, jobs: this.jobs.size });
 
-    // Processes in background
     this.process(id, {
       buffer: data.buffer,
       originalName: data.file.originalName,
@@ -155,5 +150,4 @@ class FileQueue {
   }
 }
 
-// Exports a singleton instance
 export const fileQueue = new FileQueue(); 

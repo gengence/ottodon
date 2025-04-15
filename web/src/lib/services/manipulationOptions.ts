@@ -108,7 +108,6 @@ const documentOptions: ManipulationOptions = {
 };
 
 export function getManipulationOptions(fileDetails: FileDetails): ManipulationOptions {
-  // Filter out current format from conversion options
   const getFilteredOptions = (options: ManipulationOptions): ManipulationOptions => ({
     ...options,
     conversions: options.conversions.filter(c => c.format !== fileDetails.extension)

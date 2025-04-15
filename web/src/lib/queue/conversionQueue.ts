@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Queue from 'bull';
 import { fileQueue } from './fileQueue';
 
@@ -16,19 +15,15 @@ const conversionQueue = new Queue<ConversionJob>('media-conversion', {
   }
 });
 
-// Processes conversion jobs
 conversionQueue.process(async (job) => {
   const { jobId, format, operation, params } = job.data;
   
   try {
-    // Updates
     job.progress(10);
     
-    // Gets original job
     const originalJob = await fileQueue.getJob(jobId);
     if (!originalJob) throw new Error('Original job not found');
 
-    // Perform conversion
     job.progress(30);
     const result = await fileQueue.convert(jobId, format);
     job.progress(90);
@@ -40,12 +35,10 @@ conversionQueue.process(async (job) => {
   }
 });
 
-// Handles completed jobs
 conversionQueue.on('completed', (job, result) => {
   console.log(`Conversion completed for job ${job.data.jobId}`);
 });
 
-// Handles failed jobs
 conversionQueue.on('failed', (job, error) => {
   console.error(`Conversion failed for job ${job.data.jobId}:`, error);
 });

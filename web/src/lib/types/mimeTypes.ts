@@ -1,5 +1,4 @@
 export const mimeTypes = {
-  // Images
   'jpg': 'image/jpeg',
   'jpeg': 'image/jpeg',
   'png': 'image/png',
@@ -7,11 +6,9 @@ export const mimeTypes = {
   'gif': 'image/gif',
   'avif': 'image/avif',
   
-  // Videos
   'mp4': 'video/mp4',
   'webm': 'video/webm',
   
-  // Documents
   'pdf': 'application/pdf',
   'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
