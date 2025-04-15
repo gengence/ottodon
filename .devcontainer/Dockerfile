@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:latest
 
 RUN npm install -g pnpm
 
