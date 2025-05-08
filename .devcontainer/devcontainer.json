@@ -9,17 +9,16 @@
 		}
 	},
 
-	"updateContentCommand": "sudo chown -R vscode:vscode /workspaces/${localWorkspaceFolderBasename}/web/node_modules /home/vscode/.pnpm-store",
+	"updateContentCommand": "sudo chown -R vscode:vscode /workspaces/${localWorkspaceFolderBasename}/web/node_modules",
 
 	"mounts": [
-		"source=ottodon-web-node-modules,target=/workspaces/${localWorkspaceFolderBasename}/web/node_modules,type=volume",
-		"source=ottodon-pnpm-store,target=/home/vscode/.pnpm-store,type=volume"
+		"source=ottodon-node-modules,target=/workspaces/${localWorkspaceFolderBasename}/web/node_modules,type=volume"
 	],
 
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/web",
 	"remoteUser": "vscode",
 
-	"postCreateCommand": "bash -c 'cd /workspaces/${localWorkspaceFolderBasename}/web && pnpm install --store-dir /home/vscode/.pnpm-store'",
+	"postCreateCommand": "cd /workspaces/${localWorkspaceFolderBasename}/web && pnpm install --store-dir /home/vscode/.pnpm-store",
 
 	"forwardPorts": [3000],
 
