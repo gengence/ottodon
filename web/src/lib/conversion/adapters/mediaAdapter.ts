@@ -1,10 +1,19 @@
 import { MediaAdapter, ProcessingResult } from '../types';
-import { mkdir } from 'fs/promises';
-import { join } from 'path';
+import { writeFile, readFile } from 'fs/promises';
 import ffmpeg from 'fluent-ffmpeg';
 import { fileTypeFromBuffer } from 'file-type';
-import { writeFile, readFile, unlink } from 'fs/promises';
-import { randomUUID } from 'crypto';
+import * as tmp from 'tmp';
+
+function createTempFile(options: tmp.FileOptions): Promise<{ path: string; cleanupCallback?: () => void }> {
+  return new Promise((resolve, reject) => {
+    tmp.file({ ...options, discardDescriptor: true }, (err, path, cleanupCallback) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve({ path, cleanupCallback: cleanupCallback || undefined });
+    });
+  });
+}
 
 type VideoFormat = 'mp4' | 'webm' | 'gif';
 
@@ -20,10 +29,7 @@ export class MediaProcessor implements MediaAdapter {
     'gif': ['mp4', 'webm']
   };
 
-  private tempDir = join(process.cwd(), 'temp');
-
   constructor() {
-    mkdir(this.tempDir, { recursive: true }).catch(console.error);
   }
 
   supports(mimeType: string): boolean {
@@ -47,14 +53,20 @@ export class MediaProcessor implements MediaAdapter {
   }
 
   async manipulate(buffer: Buffer, operation: string, params: Record<string, unknown>): Promise<Buffer> {
+    let inputTemp: { path: string; cleanupCallback?: () => void } | undefined;
+    let outputTemp: { path: string; cleanupCallback?: () => void } | undefined;
+
     try {
       switch (operation) {
         case 'convert': {
           const format = params.format as string;
           console.log('Converting video to:', format);
 
-          const inputPath = join(this.tempDir, `input-${randomUUID()}`);
-          const outputPath = join(this.tempDir, `output-${randomUUID()}.${format}`);
+          inputTemp = await createTempFile({ prefix: 'media-input-', postfix: '.tmp' });
+          outputTemp = await createTempFile({ prefix: 'media-output-', postfix: `.${format}` });
+          
+          const inputPath = inputTemp.path;
+          const outputPath = outputTemp.path;
 
           await writeFile(inputPath, buffer);
 
@@ -78,22 +90,21 @@ export class MediaProcessor implements MediaAdapter {
                 .videoBitrate('1000k')
                 .audioCodec('aac')
                 .format('mp4');
+            } else {
+              return reject(new Error(`Unsupported target video format: ${format}`));
             }
 
             command
               .output(outputPath)
               .on('end', () => resolve())
-              .on('error', (err) => reject(err))
+              .on('error', (err) => {
+                console.error('ffmpeg execution error:', err);
+                reject(err);
+              })
               .run();
           });
 
           const convertedBuffer = await readFile(outputPath);
-
-          await Promise.all([
-            unlink(inputPath).catch(() => {}),
-            unlink(outputPath).catch(() => {})
-          ]);
-
           return convertedBuffer;
         }
         default:
@@ -102,6 +113,13 @@ export class MediaProcessor implements MediaAdapter {
     } catch (error) {
       console.error('Video manipulation error:', error);
       throw error;
+    } finally {
+      if (inputTemp?.cleanupCallback) {
+        inputTemp.cleanupCallback();
+      }
+      if (outputTemp?.cleanupCallback) {
+        outputTemp.cleanupCallback();
+      }
     }
   }
 }
