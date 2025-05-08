@@ -179,14 +179,12 @@ export default function Home() {
         throw new Error(errorData.details || 'Conversion failed');
       }
       
-      // Create a download link from the response blob
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       
       const originalName = currentJob.file.originalName;
       const newFilename = originalName.replace(/\.[^/.]+$/, '') + '.' + format;
       
-      // Trigger download
       const a = document.createElement('a');
       a.href = url;
       a.download = newFilename;
