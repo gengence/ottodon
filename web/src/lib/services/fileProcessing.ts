@@ -1,7 +1,7 @@
 import { FileData } from '../middleware/fileHandler';
 import { getAdapter } from '../conversion/factory';
 import { Job } from '../queue/types';
-import { getManipulationOptions } from './manipulationOptions';
+import { getManipulationOptions } from './availableManipulations';
 
 export async function processFile(
   fileData: FileData,

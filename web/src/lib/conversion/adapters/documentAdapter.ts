@@ -8,21 +8,19 @@ import fs from 'fs';
 
 const convertPromise = promisify<Buffer, string, undefined, Buffer>(convert);
 
-const possiblePaths = [
-  '/Applications/LibreOffice.app/Contents/MacOS/soffice', 
-  'C:\\Program Files\\LibreOffice\\program\\soffice.exe', 
-  'C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe', 
-  '/usr/bin/libreoffice', 
-  '/usr/bin/soffice' 
-];
+const libreOfficeExecutablePath = process.env.LIBREOFFICE_PATH;
 
-const LIBRE_OFFICE_PATH = possiblePaths.find(path => fs.existsSync(path));
-
-if (!LIBRE_OFFICE_PATH) {
-  console.error('LibreOffice not found in common locations. Please install LibreOffice.');
+if (!libreOfficeExecutablePath || !fs.existsSync(libreOfficeExecutablePath)) {
+    console.error(
+        `CRITICAL: LIBREOFFICE_PATH environment variable is not set or points to an invalid executable. ` +
+        `Document conversion functionality will be severely impacted or disabled. ` +
+        `Please ensure LibreOffice is installed and LIBREOFFICE_PATH is correctly configured to its soffice executable.`
+    );
 } else {
-  console.log('LibreOffice found at:', LIBRE_OFFICE_PATH);
-  process.env.LIBRE_OFFICE_PATH = LIBRE_OFFICE_PATH;
+    console.info(
+        `LibreOffice executable for document conversion is configured to: ${libreOfficeExecutablePath}. ` +
+        `This path will be used by the document conversion library.`
+    );
 }
 
 type DocumentFormat = 'pdf' | 'docx' | 'xlsx' | 'txt';
