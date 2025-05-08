@@ -64,7 +64,8 @@
     "onlyBuiltDependencies": [
       "ffmpeg-static",
       "msgpackr-extract",
-      "sharp"
+      "sharp",
+      "unrs-resolver"
     ]
   }
 }
