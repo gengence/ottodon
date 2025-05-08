@@ -66,5 +66,6 @@
       "msgpackr-extract",
       "sharp"
     ]
-  }
+  },
+  "packageManager": "pnpm@10.10.0"
 }
