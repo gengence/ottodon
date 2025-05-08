@@ -9,12 +9,23 @@
 		}
 	},
 
-	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y libreoffice && cd web && corepack enable && pnpm install",
+	"updateContentCommand": "sudo chown -R vscode:vscode /workspaces/${localWorkspaceFolderBasename}/web/node_modules /workspaces/${localWorkspaceFolderBasename}/.pnpm-store",
+
+	"mounts": [
+		"source=ottodon-web-node-modules,target=/workspaces/${localWorkspaceFolderBasename}/web/node_modules,type=volume",
+		"source=ottodon-pnpm-store,target=/workspaces/${localWorkspaceFolderBasename}/.pnpm-store,type=volume"
+	],
+
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/web",
+	"remoteUser": "vscode",
+
+	"postCreateCommand": "bash -c 'cd /workspaces/${localWorkspaceFolderBasename}/web && pnpm install'",
 
 	"forwardPorts": [3000],
 
 	"containerEnv": {
-		"LIBREOFFICE_PATH": "/usr/bin/soffice"
+		"LIBREOFFICE_PATH": "/usr/bin/soffice",
+		"PNPM_STORE_PATH": "/workspaces/${localWorkspaceFolderBasename}/.pnpm-store"
 	},
 
 	"customizations": {
