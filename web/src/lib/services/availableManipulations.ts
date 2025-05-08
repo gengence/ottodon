@@ -108,10 +108,19 @@ const documentOptions: AvailableManipulations = {
 };
 
 export function getManipulationOptions(fileDetails: FileDetails): AvailableManipulations {
-  const getFilteredOptions = (options: AvailableManipulations): AvailableManipulations => ({
-    ...options,
-    conversions: options.conversions.filter(c => c.format !== fileDetails.extension)
-  });
+  const getFilteredOptions = (options: AvailableManipulations): AvailableManipulations => {
+    let extensionToFilter = fileDetails.extension;
+    if (fileDetails.category === 'image' && (extensionToFilter === 'jpg' || extensionToFilter === 'jpeg')) {
+      return {
+        ...options,
+        conversions: options.conversions.filter(c => c.format !== 'jpeg' && c.format !== 'jpg')
+      };
+    }
+    return {
+      ...options,
+      conversions: options.conversions.filter(c => c.format !== extensionToFilter)
+    };
+  };
 
   switch (fileDetails.category) {
     case 'image':
