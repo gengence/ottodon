@@ -64,8 +64,7 @@ export default function Home() {
         } else {
           setTimeout(checkStatus, 1000);
         }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (err) {
+      } catch {
         setStatus('error');
         setError('Failed to check status');
       }
@@ -93,14 +92,12 @@ export default function Home() {
         setHasClipboardPermission(true);
         return true;
       } else if (result.state === 'prompt') {
-        // Just trigger the permission prompt without storing the text
         await navigator.clipboard.readText();
         setHasClipboardPermission(true);
         return true;
       }
       return false;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
+    } catch {
       return false;
     }
   };
@@ -119,8 +116,7 @@ export default function Home() {
       if (text) {
         setUrl(text);
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
+    } catch {
       setError('Please allow clipboard access or use Ctrl+V/⌘+V');
     }
   };
@@ -297,7 +293,7 @@ export default function Home() {
                     handleUpload(e.target.files[0]);
                   }
                 }}
-                accept="*/*" // Accept all file types
+                accept="*/*" 
               />
               <Button
                 variant="ghost"
@@ -305,7 +301,6 @@ export default function Home() {
                 className="gap-2 text-foreground hover:bg-foreground/10"
                 type="button"
                 onClick={() => {
-                  // Trigger the hidden file input
                   const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
                   fileInput?.click();
                 }}
@@ -363,7 +358,7 @@ export default function Home() {
                           <div className="space-y-2">
                             <label className="text-sm font-medium">Convert to:</label>
                             <div className="flex flex-wrap gap-2">
-                              {currentJob.manipulationOptions.conversions.map(conv => (
+                              {currentJob.manipulationOptions.conversions.map((conv: { format: string; label: string }) => (
                                 <Button
                                   key={conv.format}
                                   variant="outline"
@@ -382,7 +377,7 @@ export default function Home() {
                           <div className="space-y-2">
                             <label className="text-sm font-medium">Operations:</label>
                             <div className="flex flex-wrap gap-2">
-                              {currentJob.manipulationOptions.operations.map(op => (
+                              {currentJob.manipulationOptions.operations.map((op: { id: string; label: string; options?: Record<string, unknown> }) => (
                                 <Button
                                   key={op.id}
                                   variant="outline"
