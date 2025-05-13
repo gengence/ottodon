@@ -1,5 +1,5 @@
 {
-	"name": "Ottodon Dev Container",
+	"name": "Ottodon",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
@@ -9,16 +9,9 @@
 		}
 	},
 
-	"updateContentCommand": "sudo chown -R vscode:vscode /workspaces/${localWorkspaceFolderBasename}/web/node_modules",
-
-	"mounts": [
-		"source=ottodon-node-modules,target=/workspaces/${localWorkspaceFolderBasename}/web/node_modules,type=volume"
-	],
-
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/web",
 	"remoteUser": "vscode",
 
-	"postCreateCommand": "cd /workspaces/${localWorkspaceFolderBasename}/web && pnpm install --store-dir /home/vscode/.pnpm-store",
+	"postCreateCommand": "cd web && pnpm install --store-dir /home/vscode/.pnpm-store",
 
 	"forwardPorts": [3000],
 
@@ -35,4 +28,4 @@
 			]
 		}
 	}
-} 
+}

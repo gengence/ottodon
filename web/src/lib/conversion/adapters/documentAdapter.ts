@@ -1,12 +1,22 @@
 import { MediaAdapter, ProcessingResult } from '../types';
 import { mkdir } from 'fs/promises';
 import { join } from 'path';
-import { fileTypeFromBuffer } from 'file-type';
+import { fileTypeFromBuffer, FileTypeResult } from 'file-type';
 import { convert } from 'libreoffice-convert';
 import { promisify } from 'util';
 import fs from 'fs';
 
-const convertPromise = promisify<Buffer, string, undefined, Buffer>(convert);
+interface LibreOfficeConvertOptions {
+  sofficeBinaryPaths?: string[];
+}
+
+const convertPromise = promisify<
+  Buffer,                      
+  string,                      
+  string | undefined,           
+  LibreOfficeConvertOptions | undefined, 
+  Buffer                       
+>(convert as any);
 
 const libreOfficeExecutablePath = process.env.LIBREOFFICE_PATH;
 
@@ -74,16 +84,46 @@ export class DocumentProcessor implements MediaAdapter {
 
       switch (operation) {
         case 'convert': {
-          const format = params.format as string;
-          console.log('Converting document to:', format);
+          const targetFormat = (params.format as string).toLowerCase();
+          const fileTypeResult: FileTypeResult | undefined = await fileTypeFromBuffer(buffer);
+          const sourceExt = fileTypeResult?.ext;
+
+          console.log(`Attempting conversion from ${sourceExt || 'unknown'} to ${targetFormat} using libreoffice-convert.`);
+
+          let filterToUse: string | undefined = undefined;
+          if (targetFormat === 'txt') {
+            filterToUse = 'txt:Text (encoded):UTF8';
+          } else if (targetFormat === 'docx') {
+            filterToUse = 'docx:Office Open XML Text';
+          }
+
+          if (filterToUse) {
+            console.log(`Using specific filter for libreoffice-convert (${sourceExt || 'unknown'} to ${targetFormat}): ${filterToUse}`);
+          } else {
+            console.log(`Using default/auto-detected filter for libreoffice-convert (${sourceExt || 'unknown'} to ${targetFormat}).`);
+          }
 
           try {
-            const result = await convertPromise(buffer, `.${format}`, undefined);
-            console.log('Conversion successful');
-            return Buffer.from(result);
+            const outputExtension = targetFormat.startsWith('.') ? targetFormat : `.${targetFormat}`;
+            
+            let conversionOptions: LibreOfficeConvertOptions | undefined = undefined;
+            if (libreOfficeExecutablePath && fs.existsSync(libreOfficeExecutablePath)) {
+              conversionOptions = { sofficeBinaryPaths: [libreOfficeExecutablePath] };
+              console.log(`Using soffice binary path for conversion: ${libreOfficeExecutablePath}`);
+            } else {
+              console.warn(
+                `LIBREOFFICE_PATH ('${libreOfficeExecutablePath}') is not valid or not set. ` +
+                `Attempting conversion without explicitly setting soffice binary path. ` +
+                `This may fail if soffice is not in the system PATH or if the library requires it.`
+              );
+            }
+
+            const resultBuffer = await convertPromise(buffer, outputExtension, filterToUse, conversionOptions);
+            console.log(`Successfully converted from ${sourceExt || 'unknown'} to ${targetFormat} using libreoffice-convert.`);
+            return resultBuffer;
           } catch (error) {
-            console.error('Conversion error:', error);
-            throw new Error('Document conversion failed. Please check if LibreOffice is installed.');
+            console.error(`libreoffice-convert failed for ${sourceExt || 'unknown'} to ${targetFormat}:`, error);
+            throw new Error(`Document conversion from ${sourceExt || 'original format unknown'} to ${targetFormat} failed using libreoffice-convert.`);
           }
         }
         default:
