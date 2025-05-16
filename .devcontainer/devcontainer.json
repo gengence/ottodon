@@ -12,12 +12,14 @@
 
 	"remoteUser": "vscode",
 
+	"onCreateCommand": "sudo chown -R vscode:vscode /workspaces/${localWorkspaceFolderBasename}/web/node_modules /pnpm-store",
+
 	"mounts": [
 		"source=${localWorkspaceFolderBasename}-node_modules,target=/workspaces/${localWorkspaceFolderBasename}/web/node_modules,type=volume",
-		"source=pnpm-store,target=/home/vscode/.pnpm-store,type=volume"
+		"source=pnpm-store,target=/pnpm-store,type=volume"
 	],
 
-	"postCreateCommand": "pnpm config set store-dir /home/vscode/.pnpm-store && cd web && pnpm install",
+	"postCreateCommand": "pnpm config set store-dir /pnpm-store && cd web && pnpm install",
 
 	"forwardPorts": [3000],
 
