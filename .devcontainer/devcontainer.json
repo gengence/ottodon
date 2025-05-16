@@ -5,13 +5,19 @@
 	},
 	"features": {
 		"ghcr.io/devcontainers/features/node:1": {
-			"version": "lts"
+			"version": "lts",
+			"installPnpm": "true"
 		}
 	},
 
 	"remoteUser": "vscode",
 
-	"postCreateCommand": "cd web && pnpm install --store-dir /home/vscode/.pnpm-store",
+	"mounts": [
+		"source=${localWorkspaceFolderBasename}-node_modules,target=/workspaces/${localWorkspaceFolderBasename}/web/node_modules,type=volume",
+		"source=pnpm-store,target=/home/vscode/.pnpm-store,type=volume"
+	],
+
+	"postCreateCommand": "pnpm config set store-dir /home/vscode/.pnpm-store && cd web && pnpm install",
 
 	"forwardPorts": [3000],
 
