@@ -79,6 +79,7 @@ export class DocumentProcessor implements MediaAdapter {
   }
 
   async manipulate(buffer: Buffer, operation: string, params: Record<string, unknown>): Promise<Buffer> {
+    /*
     try {
       await mkdir(this.tempDir, { recursive: true });
 
@@ -133,6 +134,9 @@ export class DocumentProcessor implements MediaAdapter {
       console.error('Document manipulation error:', error);
       throw error;
     }
+    */
+    console.error('Document manipulation/conversion is temporarily disabled.');
+    throw new Error('Document manipulation/conversion is temporarily disabled.');
   }
 }
 

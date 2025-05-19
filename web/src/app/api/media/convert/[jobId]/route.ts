@@ -8,9 +8,9 @@ export async function POST(
 ) {
   try {
     const { jobId } = await context.params;
-    const { format } = await request.json();
+    const { format } = await request.json(); 
     
-    console.log(`Converting job ${jobId} to ${format}`);
+    console.log(`Attempting conversion for job ${jobId} to ${format}`);
 
     const job = await fileQueue.getJob(jobId);
     if (!job) {
@@ -27,7 +27,6 @@ export async function POST(
           'Content-Type': mimeType,
           'Content-Disposition': `attachment; filename="${result.file.originalName}"`,
           'Content-Length': result.file.buffer.length.toString(),
-          // Allow caching for converted files
           'Cache-Control': 'public, max-age=31536000',
           'Last-Modified': new Date().toUTCString()
         }
@@ -35,13 +34,21 @@ export async function POST(
     }
 
     return NextResponse.json(
-      { error: 'Conversion failed - no output file' }, 
+      { error: 'Conversion resulted in no output file' }, 
       { status: 500 }
     );
 
   } catch (error) {
-    console.error('Conversion error:', error);
+    console.error(`Conversion error for job in [jobId]/route.ts:`, error);
     const message = error instanceof Error ? error.message : 'Unknown error';
+
+    if (message.includes('No adapter found for file type') || message.includes('Document manipulation/conversion is temporarily disabled')) {
+        return NextResponse.json(
+            { error: 'Document conversion is temporarily disabled.', details: message },
+            { status: 503 }
+        );
+    }
+    
     return NextResponse.json(
       { 
         error: 'Conversion failed',

@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Queue from 'bull';
 
-const conversionQueue = new Queue('media-conversion');
+const conversionQueue = new Queue('media-conversion', {
+  redis: {
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT || '6379')
+  }
+});
 
 export async function GET(
   request: NextRequest,
@@ -17,18 +22,35 @@ export async function GET(
 
     const state = await job.getState();
     const progress = job.progress;
+    const returnValue = job.returnvalue;
+    const failedReason = job.failedReason;
+
+    if (state === 'failed' && 
+        (typeof failedReason === 'string' && 
+         (failedReason.includes('No adapter found for file type') || 
+          failedReason.includes('Document manipulation/conversion is temporarily disabled')))) {
+      return NextResponse.json({
+        id: job.id,
+        state,
+        progress,
+        error: 'Document conversion is temporarily disabled.',
+        details: failedReason
+      }, { status: 200 });
+    }
 
     return NextResponse.json({
       id: job.id,
       state,
       progress,
-      result: job.returnvalue,
-      error: job.failedReason
+      result: returnValue,
+      error: failedReason
     });
 
   } catch (error) {
+    console.error('Failed to check status:', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Failed to check status' },
+      { error: 'Failed to check job status', details: message },
       { status: 500 }
     );
   }
