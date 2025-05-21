@@ -25,19 +25,6 @@ export async function GET(
     const returnValue = job.returnvalue;
     const failedReason = job.failedReason;
 
-    if (state === 'failed' && 
-        (typeof failedReason === 'string' && 
-         (failedReason.includes('No adapter found for file type') || 
-          failedReason.includes('Document manipulation/conversion is temporarily disabled')))) {
-      return NextResponse.json({
-        id: job.id,
-        state,
-        progress,
-        error: 'Document conversion is temporarily disabled.',
-        details: failedReason
-      }, { status: 200 });
-    }
-
     return NextResponse.json({
       id: job.id,
       state,

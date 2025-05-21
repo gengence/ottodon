@@ -42,13 +42,13 @@ export async function POST(
     console.error(`Conversion error for job in [jobId]/route.ts:`, error);
     const message = error instanceof Error ? error.message : 'Unknown error';
 
-    if (message.includes('No adapter found for file type') || message.includes('Document manipulation/conversion is temporarily disabled')) {
-        return NextResponse.json(
-            { error: 'Document conversion is temporarily disabled.', details: message },
-            { status: 503 }
-        );
+    if (message.includes('not supported by LibreOffice')) {
+      return NextResponse.json(
+        { error: message },
+        { status: 400 }
+      );
     }
-    
+
     return NextResponse.json(
       { 
         error: 'Conversion failed',

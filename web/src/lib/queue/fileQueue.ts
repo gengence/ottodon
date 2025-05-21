@@ -80,13 +80,22 @@ class FileQueue {
     if (!buffer) throw new Error('File buffer not found');
 
     const adapter = this.getAdapter(job.file.mimeType);
-    if (!adapter) throw new Error('No adapter found for file type');
+    const isPdfToDocx = job.file.mimeType === 'application/pdf' && format.toLowerCase() === 'docx';
+
+    if (!adapter && !isPdfToDocx) throw new Error('No adapter found for file type');
 
     try {
       job.status = 'processing';
       this.jobs.set(jobId, job);
 
-      const convertedBuffer = await adapter.manipulate(buffer, 'convert', { format });
+      let convertedBuffer: Buffer;
+
+      if (isPdfToDocx) {
+        const { pdfToDocxCLI } = await import('../services/pdf2docxCli');
+        convertedBuffer = await pdfToDocxCLI(buffer);
+      } else {
+        convertedBuffer = await adapter!.manipulate(buffer, 'convert', { format });
+      }
       console.log('Conversion successful, new size:', convertedBuffer.length);
       
       const updatedJob: Job = {
