@@ -98,12 +98,17 @@ class FileQueue {
       }
       console.log('Conversion successful, new size:', convertedBuffer.length);
       
+      const originalName = job.file.originalName;
+      const nameWithoutExtension = originalName.replace(/\.[^/.]+$/, '');
+      const newFilename = `${nameWithoutExtension}.${format}`;
+      
       const updatedJob: Job = {
         ...job,
         status: 'completed' as JobStatus,
         file: {
           ...job.file,
-          buffer: convertedBuffer
+          buffer: convertedBuffer,
+          originalName: newFilename
         },
         result: {
           url: URL.createObjectURL(new Blob([convertedBuffer])),

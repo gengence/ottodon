@@ -23,10 +23,6 @@
 
 	"forwardPorts": [3000],
 
-	"containerEnv": {
-		"LIBREOFFICE_PATH": "/usr/bin/soffice"
-	},
-
 	"customizations": {
 		"vscode": {
 			"settings": {},

@@ -22,10 +22,14 @@ export async function POST(
     if (result.file.buffer) {
       const mimeType = mimeTypes[format as keyof typeof mimeTypes] || 'application/octet-stream';
       
+      const originalName = result.file.originalName;
+      const nameWithoutExtension = originalName.replace(/\.[^/.]+$/, '');
+      const newFilename = `${nameWithoutExtension}.${format}`;
+      
       return new NextResponse(result.file.buffer, {
         headers: {
           'Content-Type': mimeType,
-          'Content-Disposition': `attachment; filename="${result.file.originalName}"`,
+          'Content-Disposition': `attachment; filename="${newFilename}"`,
           'Content-Length': result.file.buffer.length.toString(),
           'Cache-Control': 'public, max-age=31536000',
           'Last-Modified': new Date().toUTCString()
