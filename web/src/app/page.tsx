@@ -17,9 +17,11 @@ export default function Home() {
   const [status, setStatus] = useState<'idle' | 'uploading' | 'processing' | 'complete' | 'error'>('idle');
   const [hasClipboardPermission, setHasClipboardPermission] = useState(false);
   const [currentJob, setCurrentJob] = useState<Job | null>(null);
+  const [isUrlUpload, setIsUrlUpload] = useState(false);
 
   const handleUpload = async (file: File) => {
     try {
+      setIsUrlUpload(false);
       setStatus('uploading');
       setError(null);
       setDownloadUrl(null);
@@ -57,14 +59,20 @@ export default function Home() {
 
         if (job.status === 'completed') {
           setStatus('complete');
-          setDownloadUrl(job.result.url);
+          
+          if (job.result && job.result.url) {
+            setDownloadUrl(job.result.url);
+          } else {
+            setDownloadUrl(`/api/media/download/${jobId}`);
+          }
+          
         } else if (job.status === 'failed') {
           setStatus('error');
           setError(job.error || 'Processing failed');
         } else {
           setTimeout(checkStatus, 1000);
         }
-      } catch {
+      } catch (err) {
         setStatus('error');
         setError('Failed to check status');
       }
@@ -123,6 +131,7 @@ export default function Home() {
 
   const handleSubmit = async (submittedUrl: string) => {
     try {
+      setIsUrlUpload(true);
       setStatus('uploading');
       setError(null);
       setDownloadUrl(null);
@@ -157,7 +166,6 @@ export default function Home() {
 
   const handlePaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
     const pastedData = e.clipboardData.getData('text');
-    console.log('Pasted data:', pastedData);
   };
 
   const handleConversion = async (format: string) => {
@@ -199,6 +207,41 @@ export default function Home() {
   const handleOperation = async (operationId: string, options?: Record<string, unknown>) => {
     try {
       setStatus('processing');
+      
+      if (operationId.startsWith('youtube-') && currentJob) {
+        const quality = options?.quality as string;
+        const response = await fetch(`/api/media/youtube-quality/${currentJob.id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ quality })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to download with selected quality');
+        }
+        
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        
+        const contentDisposition = response.headers.get('Content-Disposition');
+        let filename = 'youtube_video';
+        if (contentDisposition) {
+          const match = contentDisposition.match(/filename="(.+)"/);
+          if (match) filename = match[1];
+        }
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        setStatus('idle');
+        return;
+      }
+      
       const response = await fetch(`/api/media/operation/${currentJob?.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -330,7 +373,7 @@ export default function Home() {
                 {status === 'uploading' && (
                   <div className="flex items-center gap-3">
                     <Loader2 className="h-6 w-6 animate-spin" />
-                    <span>Uploading file...</span>
+                    <span>{isUrlUpload ? 'Getting info...' : 'Uploading file...'}</span>
                   </div>
                 )}
                 
@@ -396,8 +439,25 @@ export default function Home() {
                     <Button 
                       className="w-full"
                       onClick={() => {
-                        window.location.href = downloadUrl;
+                        if (downloadUrl && currentJob) {
+                          // For social media files, use the direct download endpoint
+                          const isSocialMedia = currentJob.file?.originalName?.toLowerCase().includes('tiktok') || 
+                                             currentJob.file?.originalName?.toLowerCase().includes('instagram') ||
+                                             currentJob.file?.originalName?.toLowerCase().includes('youtube');
+                          
+                          if (isSocialMedia) {
+                            window.location.href = `/api/media/download/${currentJob.id}`;
+                          } else {
+                            // Normal downloads
+                            const a = document.createElement('a');
+                            a.href = downloadUrl;
+                            a.download = currentJob.file?.originalName || 'download';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                          }
                         setStatus('idle');
+                        }
                       }}
                     >
                       Download Original

@@ -47,7 +47,6 @@ class FileQueue {
     };
 
     this.jobs.set(id, job);
-    console.log('Added job to queue:', { id, jobs: this.jobs.size });
 
     this.process(id, {
       buffer: data.buffer,
@@ -62,17 +61,10 @@ class FileQueue {
 
   async getJob(id: string): Promise<Job | undefined> {
     const job = this.jobs.get(id);
-    console.log(`Queue state for ${id}:`, {
-      found: !!job,
-      status: job?.status,
-      totalJobs: this.jobs.size
-    });
     return job;
   }
 
   async convert(jobId: string, format: string): Promise<Job> {
-    console.log(`Starting conversion for job ${jobId} to format ${format}`);
-    
     const job = this.jobs.get(jobId);
     if (!job) throw new Error('Job not found');
 
@@ -87,7 +79,6 @@ class FileQueue {
       this.jobs.set(jobId, job);
 
       const convertedBuffer = await adapter.manipulate(buffer, 'convert', { format });
-      console.log('Conversion successful, new size:', convertedBuffer.length);
       
       const updatedJob: Job = {
         ...job,
@@ -97,7 +88,7 @@ class FileQueue {
           buffer: convertedBuffer
         },
         result: {
-          url: URL.createObjectURL(new Blob([convertedBuffer])),
+          url: URL.createObjectURL(new Blob([convertedBuffer as any])),
           mimeType: mimeTypes[format as keyof typeof mimeTypes] || 'application/octet-stream',
           size: convertedBuffer.length
         }
@@ -106,7 +97,6 @@ class FileQueue {
 
       return updatedJob;
     } catch (error) {
-      console.error('Conversion failed:', error);
       const failedJob: Job = {
         ...job,
         status: 'failed' as JobStatus,
@@ -124,25 +114,26 @@ class FileQueue {
   private async process(id: string, fileData: FileData) {
     const job = this.jobs.get(id);
     if (!job) {
-      console.error(`Job ${id} not found in queue`);
       return;
     }
 
-    console.log(`Starting process for job ${id}`);
     job.status = 'processing';
     this.jobs.set(id, job);
 
     try {
-      const result = await processFile(fileData, job.options);
+      const result = await processFile(fileData, { ...(job.options || {}), jobId: id });
+      
       const updatedJob: Job = { 
         ...job, 
-        ...result,
-        status: 'completed' as JobStatus
+        status: result.status as JobStatus || 'completed',
+        progress: result.progress || 100,
+        result: result.result,
+        manipulationOptions: result.manipulationOptions,
+        error: result.error
       };
+      
       this.jobs.set(id, updatedJob);
-      console.log(`Completed job ${id}`);
     } catch (error) {
-      console.error(`Failed job ${id}:`, error);
       job.status = 'failed';
       job.error = error instanceof Error ? error.message : 'Processing failed';
       this.jobs.set(id, job);
