@@ -10,5 +10,5 @@ const adapters: MediaAdapter[] = [
 ];
 
 export function getAdapter(mimeType: string): MediaAdapter | undefined {
-  return adapters.find(adapter => adapter.supports(mimeType));
+  return adapters.find(adapter => adapter.supports(mimeType)); 
 } 

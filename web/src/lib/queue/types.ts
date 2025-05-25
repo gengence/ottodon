@@ -1,5 +1,5 @@
 import { FileDetails } from '../middleware/fileTypeDetection';
-import { ManipulationOptions } from '../services/manipulationOptions';
+import { AvailableManipulations } from '../services/availableManipulations';
 
 export type JobStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
@@ -21,7 +21,7 @@ export interface Job {
     mimeType: string;
     size: number;
   };
-  manipulationOptions?: ManipulationOptions;
+  manipulationOptions?: AvailableManipulations;
 }
 
 export interface QueueOptions {

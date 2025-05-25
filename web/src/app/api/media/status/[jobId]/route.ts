@@ -13,7 +13,6 @@ export async function GET(
       return NextResponse.json({ error: 'Job not found' }, { status: 404 });
     }
 
-    // Include file type information in response
     return NextResponse.json({
       ...job,
       fileType: job.file.fileType?.category || 'unknown'
